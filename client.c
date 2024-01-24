@@ -1,16 +1,14 @@
 #include <stdio.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-
 #include "StdTcp.h"
-
 #include "StdThread.h"
 #include "GlobalMessage.h"
 #include "DoubleLinkList.h"
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
-#define ip "172.25.41.88"
+#define ip "172.21.124.113"
 #define port 8080
 #define FRIENDNAMESIZE 20
 

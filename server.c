@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-
 #include "StdThread.h"
 #include "StdSqlite.h"
 #include "MyString.h"
@@ -11,7 +10,9 @@
 #include "GlobalMessage.h"
 #include "StdTcp.h"
 #include <unistd.h>
-#define ip "172.25.41.88"
+
+
+#define ip "172.21.124.113"
 #define port 8080
 #define USERNAMESIZE 150
 #define FRIENDNAMESIZE 20
