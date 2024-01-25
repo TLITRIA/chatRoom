@@ -10,17 +10,15 @@ void QPush(LQueue *q, ElementType element)
     InsertDLlistTail(&q->list, element);
 }
 
-
-
 void QPop(LQueue *q)
 {
-    RemoveByIndex(&q->list,0);
+    RemoveByIndex(&q->list, 0);
 }
 
-ElementType* GetFront(LQueue* q)
+ElementType *GetFront(LQueue *q)
 {
-    if(q->list.len == 0)
-                   return NULL;
+    if (q->list.len == 0)
+        return NULL;
     return &q->list.head->next->value;
 }
 
@@ -36,5 +34,5 @@ int GetQueueLen(LQueue *q)
 
 void FreeQueue(LQueue *q)
 {
-    FreeDLlist(&q->list,NULL);
+    FreeDLlist(&q->list, NULL);
 }

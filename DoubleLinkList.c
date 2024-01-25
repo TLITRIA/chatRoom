@@ -148,14 +148,14 @@ DLlist FindByElement(DLlist *list, ElementType element, bool (*funcPtr)(ElementT
 {
     DLlist result;
     InitDLlist(&result);
-    if(funcPtr == NULL)
+    if (funcPtr == NULL)
     {
-            return result;
+        return result;
     }
-    struct Node* travelPoint = list->head->next;
-    while(travelPoint != NULL)
+    struct Node *travelPoint = list->head->next;
+    while (travelPoint != NULL)
     {
-        if(funcPtr(element, travelPoint->value) == true)
+        if (funcPtr(element, travelPoint->value) == true)
         {
             InsertDLlistTail(&result, travelPoint->value);
         }
@@ -169,7 +169,7 @@ void FreeDLlist(DLlist *list, void (*funcPtr)(ElementType))
     struct Node *travelPoint = list->head->next;
     while (travelPoint != NULL)
     {
-        if (funcPtr != NULL)//如果函数指针传入NULL不操作，如果链表中的值需要释放，则需要自定义释放函数
+        if (funcPtr != NULL) // 如果函数指针传入NULL不操作，如果链表中的值需要释放，则需要自定义释放函数
         {
             funcPtr(travelPoint->value);
         }

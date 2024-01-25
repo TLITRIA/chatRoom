@@ -4,39 +4,37 @@
 
 #include "MyString.h"
 
-//函数声明
-bool InsertString(MyStr *s,const char*string);
-bool InsertStringByIndex(MyStr *s,int index,const char* string);
-bool RemoveString(MyStr *s,const char *string);
+// 函数声明
+bool InsertString(MyStr *s, const char *string);
+bool InsertStringByIndex(MyStr *s, int index, const char *string);
+bool RemoveString(MyStr *s, const char *string);
 void ClearString(MyStr *s);
 int StringToInt(MyStr *s);
 double StringToDouble(MyStr *s);
-bool IsStringEqual(MyStr *s1,MyStr *s2);
+bool IsStringEqual(MyStr *s1, MyStr *s2);
 MyStr CopyString(MyStr *s);
 MyStrList Split(MyStr *s, const char *string);
-bool ReSize(MyStr *s,long size);
-bool InsertChar(MyStr *s,const char c);
+bool ReSize(MyStr *s, long size);
+bool InsertChar(MyStr *s, const char c);
 
-
-bool PushBack(MyStrList *list,MyStr s);
-bool RemoveMyString(MyStrList*list,MyStr s);
+bool PushBack(MyStrList *list, MyStr s);
+bool RemoveMyString(MyStrList *list, MyStr s);
 void DisplayList(MyStrList *list);
 void ClearMyStrList(MyStrList *list);
-
 
 void InitString(MyStr *s)
 {
     s->str = NULL;
     s->len = 0;
     s->size = 0;
-    //将一个函数指针赋值指向一个函数
+    // 将一个函数指针赋值指向一个函数
     s->InsertString = InsertString;
     s->Split = Split;
     s->ClearString = ClearString;
     s->CopyString = CopyString;
     s->InsertStringByIndex = InsertStringByIndex;
     s->IsStringEqual = IsStringEqual;
-    s->RemoveString =  RemoveString;
+    s->RemoveString = RemoveString;
     s->StringToDouble = StringToDouble;
     s->StringToInt = StringToInt;
     s->ReSize = ReSize;
@@ -45,35 +43,35 @@ void InitString(MyStr *s)
 
 bool InsertString(MyStr *s, const char *string)
 {
-    if(s->str == NULL)
+    if (s->str == NULL)
     {
         s->len = strlen(string);
         s->size = s->len * 2;
         s->str = (char *)malloc(s->size);
-        if(s->str == NULL)
+        if (s->str == NULL)
         {
             printf("InsertString malloc error!\n");
             s->len = 0;
             s->size = 0;
             return false;
         }
-        strcpy(s->str,string);
+        strcpy(s->str, string);
     }
     else
     {
         int newLen = s->len + strlen(string);
-        if(newLen >= s->size)
+        if (newLen >= s->size)
         {
             s->size = newLen * 2;
             char *newStr = (char *)malloc(s->size);
-            if(newStr == NULL)
+            if (newStr == NULL)
             {
                 printf("InsertString malloc newStr error!\n");
                 s->size = s->size / 2;
                 return false;
             }
-            strcpy(newStr,s->str);
-            strcat(newStr,string);
+            strcpy(newStr, s->str);
+            strcat(newStr, string);
             free(s->str);
             s->str = newStr;
             s->len = newLen;
@@ -81,20 +79,20 @@ bool InsertString(MyStr *s, const char *string)
         else
         {
             s->len = newLen;
-            strcat(s->str,string);
+            strcat(s->str, string);
         }
     }
     return true;
 }
 
-bool InsertStringByIndex(MyStr *s, int index,const char *string)
+bool InsertStringByIndex(MyStr *s, int index, const char *string)
 {
-    if(s->str == NULL)
+    if (s->str == NULL)
     {
         printf("string is empty!\n");
         return false;
     }
-    else if(index <0 || index >= s->len)
+    else if (index < 0 || index >= s->len)
     {
         printf("InsertStringByIndex invalid palce!\n");
         return false;
@@ -102,47 +100,46 @@ bool InsertStringByIndex(MyStr *s, int index,const char *string)
     else
     {
         char tempStr[1024] = {0};
-        strncpy(tempStr,s->str,index);
-        strcat(tempStr,string);
-        strcat(tempStr,s->str+index);
+        strncpy(tempStr, s->str, index);
+        strcat(tempStr, string);
+        strcat(tempStr, s->str + index);
         int newLen = strlen(tempStr);
-        if(newLen >= s->size)
+        if (newLen >= s->size)
         {
             s->size = newLen * 2;
             char *newStr = (char *)malloc(s->size);
-            if(newStr == NULL)
+            if (newStr == NULL)
             {
                 printf("InsertStringByIndex malloc newStr error!\n");
                 s->size = s->size / 2;
                 return false;
             }
-            strcpy(newStr,tempStr);
+            strcpy(newStr, tempStr);
             free(s->str);
             s->str = newStr;
             s->len = newLen;
         }
         else
         {
-            strcpy(s->str,tempStr);
+            strcpy(s->str, tempStr);
             s->len = newLen;
         }
-
     }
     return true;
 }
 
 bool RemoveString(MyStr *s, const char *string)
 {
-    char *head =  strstr(s->str,string);
-    if(head == NULL)
+    char *head = strstr(s->str, string);
+    if (head == NULL)
     {
-        printf("RemoveString cannot find string : %s",string);
+        printf("RemoveString cannot find string : %s", string);
         return false;
     }
     else
     {
         char *removeHead = head + strlen(string);
-        while(*removeHead != '\0')
+        while (*removeHead != '\0')
         {
             *head++ = *removeHead++;
         }
@@ -171,7 +168,7 @@ double StringToDouble(MyStr *s)
 
 bool IsStringEqual(MyStr *s1, MyStr *s2)
 {
-    if(strcmp(s1->str,s2->str) == 0)
+    if (strcmp(s1->str, s2->str) == 0)
     {
         return true;
     }
@@ -180,50 +177,49 @@ bool IsStringEqual(MyStr *s1, MyStr *s2)
 
 MyStr CopyString(MyStr *s)
 {
-    if(s->str == NULL)
+    if (s->str == NULL)
     {
         printf("copy src string is NULL!\n");
         InitMyStr(str);
         return str;
     }
-    InsertMyString(str,s->str);
+    InsertMyString(str, s->str);
     return str;
 }
 
 MyStrList Split(MyStr *s, const char *string)
 {
-    //初始化字符串数组
+    // 初始化字符串数组
     InitMyStrList(strlist);
-    //将要切割的字符串进行拷贝
-    //因为strtok会修改源字符串
+    // 将要切割的字符串进行拷贝
+    // 因为strtok会修改源字符串
     MyStr s_bak = CopyString(s);
-    //拷贝失败，直接返回空结构体，不进行切割处理
-    if(s_bak.str == NULL)
+    // 拷贝失败，直接返回空结构体，不进行切割处理
+    if (s_bak.str == NULL)
     {
         printf("split copy str error!\n");
-        InitMyStrList(strlist)
-        return strlist;
+        InitMyStrList(strlist) return strlist;
     }
-    //切割备份字符串
-    char *str =strtok(s_bak.str,string);
-    //循环切割，直到切割结束位置
-    while(str != NULL)
+    // 切割备份字符串
+    char *str = strtok(s_bak.str, string);
+    // 循环切割，直到切割结束位置
+    while (str != NULL)
     {
-        //切割获取的字符串尾插到字符串数组中
-        InsertMyString(newStr,str);
-        PushBack(&strlist,newStr);
-        str = strtok(NULL,string);
+        // 切割获取的字符串尾插到字符串数组中
+        InsertMyString(newStr, str);
+        PushBack(&strlist, newStr);
+        str = strtok(NULL, string);
     }
-    //清空字符串备份
+    // 清空字符串备份
     ClearString(&s_bak);
-    //返回字符串数组
+    // 返回字符串数组
     return strlist;
 }
 
-bool ReSize(MyStr *s,long size)
+bool ReSize(MyStr *s, long size)
 {
-    char *newPtr = realloc(s->str,size);
-    if(newPtr == NULL)
+    char *newPtr = realloc(s->str, size);
+    if (newPtr == NULL)
     {
         printf("realloc error!\n");
         return false;
@@ -238,11 +234,11 @@ bool ReSize(MyStr *s,long size)
 
 bool InsertChar(MyStr *s, const char c)
 {
-    if(s->len >= s->size)
+    if (s->len >= s->size)
     {
-        if(s->size == 0)
+        if (s->size == 0)
             s->size = 1;
-        if(s->ReSize(s,s->size*2) == false)
+        if (s->ReSize(s, s->size * 2) == false)
         {
             return false;
         }
@@ -266,11 +262,11 @@ void InitStringList(MyStrList *list)
 
 bool PushBack(MyStrList *list, MyStr s)
 {
-    if(list->strlist == NULL)
+    if (list->strlist == NULL)
     {
         list->size = 10;
         list->strlist = (MyStr *)malloc(list->size * sizeof(MyStr));
-        if(list->strlist == NULL)
+        if (list->strlist == NULL)
         {
             printf("PushBack malloc error!\n");
             list->size = 0;
@@ -281,17 +277,17 @@ bool PushBack(MyStrList *list, MyStr s)
     }
     else
     {
-        if(list->len >= list->size)
+        if (list->len >= list->size)
         {
             list->size *= 2;
-            MyStr *newMyStr = (MyStr*)malloc(sizeof(MyStr)*list->size);
-            if(newMyStr == NULL)
+            MyStr *newMyStr = (MyStr *)malloc(sizeof(MyStr) * list->size);
+            if (newMyStr == NULL)
             {
                 printf("PushBack malloc error!\n");
                 list->size /= 2;
                 return false;
             }
-            for(int i = 0; i < list->len; i++)
+            for (int i = 0; i < list->len; i++)
             {
                 newMyStr[i] = list->strlist[i];
             }
@@ -309,22 +305,22 @@ bool PushBack(MyStrList *list, MyStr s)
     return true;
 }
 
-void RemoveMyStringByIndex(MyStrList *list,int index)
+void RemoveMyStringByIndex(MyStrList *list, int index)
 {
-    for(int i = index; i < list->len-1; i++)
+    for (int i = index; i < list->len - 1; i++)
     {
-        list->strlist[i] = list->strlist[i+1];
+        list->strlist[i] = list->strlist[i + 1];
     }
     list->len--;
 }
 
 bool RemoveMyString(MyStrList *list, MyStr s)
 {
-    for(int i = 0 ; i< list->len; i++)
+    for (int i = 0; i < list->len; i++)
     {
-        if(IsStringEqual(&list->strlist[i],&s) == true)
+        if (IsStringEqual(&list->strlist[i], &s) == true)
         {
-            RemoveMyStringByIndex(list,i);
+            RemoveMyStringByIndex(list, i);
             i--;
         }
     }
@@ -332,15 +328,15 @@ bool RemoveMyString(MyStrList *list, MyStr s)
 
 void DisplayList(MyStrList *list)
 {
-    for(int i = 0 ; i< list->len; i++)
+    for (int i = 0; i < list->len; i++)
     {
-        printf("%s\n",list->strlist[i].str);
+        printf("%s\n", list->strlist[i].str);
     }
 }
 
 void ClearMyStrList(MyStrList *list)
 {
-    for(int i = 0; i < list->len; i++)
+    for (int i = 0; i < list->len; i++)
     {
         ClearString(&list->strlist[i]);
     }
