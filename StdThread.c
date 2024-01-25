@@ -7,15 +7,15 @@ struct StdThread
     pthread_t id;
 };
 
-Thread *InitThread(void *(funcptr)(void *),void *arg)
+Thread *InitThread(void *(funcptr)(void *), void *arg)
 {
-    Thread *t = (Thread*)malloc(sizeof(Thread));
-    if(t == NULL)
+    Thread *t = (Thread *)malloc(sizeof(Thread));
+    if (t == NULL)
     {
         printf("malloc失败");
         return NULL;
     }
-    if(pthread_create(&t->id,NULL,funcptr,arg) != 0)
+    if (pthread_create(&t->id, NULL, funcptr, arg) != 0)
     {
         perror("pthread_create:");
         free(t);
@@ -24,35 +24,33 @@ Thread *InitThread(void *(funcptr)(void *),void *arg)
     return t;
 }
 
-bool IsSameThread(Thread* t,unsigned long ID)
+bool IsSameThread(Thread *t, unsigned long ID)
 {
     return t->id = ID;
 }
 
-void * ThreadJoin(Thread *t)
+void *ThreadJoin(Thread *t)
 {
-   void *value;
-    pthread_join(t->id,&value);
+    void *value;
+    pthread_join(t->id, &value);
     return value;
 }
 
 void ThreadDetach(Thread *t)
 {
-    if(pthread_detach(t->id) !=  0)
+    if (pthread_detach(t->id) != 0)
     {
         perror("pthread_detach:");
-
     }
 }
 
 void ThreadCancel(Thread *t)
 {
-    if(pthread_cancel(t->id) != 0)
+    if (pthread_cancel(t->id) != 0)
     {
         perror("pthread_cancel:");
     }
 }
-
 
 struct StdMutex
 {
@@ -61,13 +59,13 @@ struct StdMutex
 
 Mutex *InitMutex()
 {
-    Mutex *m  = (Mutex*)malloc(sizeof(Mutex));
-    if( m == NULL)
+    Mutex *m = (Mutex *)malloc(sizeof(Mutex));
+    if (m == NULL)
     {
         printf("初始化锁失败");
         return NULL;
     }
-    if(pthread_mutex_init(&m->mutex,NULL) != 0)
+    if (pthread_mutex_init(&m->mutex, NULL) != 0)
     {
         perror("pthread mutex init:");
         free(m);
@@ -78,17 +76,17 @@ Mutex *InitMutex()
 void MutexLock(Mutex *m)
 
 {
-    pthread_mutex_lock(&m->mutex); 
+    pthread_mutex_lock(&m->mutex);
 }
 void MutexUnlock(Mutex *m)
 {
     pthread_mutex_unlock(&m->mutex);
 }
 void ClearMutex(Mutex *m)
-{        
+{
     pthread_mutex_destroy(&m->mutex);
     free(m);
-    m =NULL;
+    m = NULL;
 }
 
 struct StdPthreadCond
@@ -98,23 +96,23 @@ struct StdPthreadCond
 
 Cond *InitThreadCond()
 {
-        Cond *c = (Cond*)malloc(sizeof(Cond));
-        if(c == NULL)
-        {
+    Cond *c = (Cond *)malloc(sizeof(Cond));
+    if (c == NULL)
+    {
         printf("Init malloc error!\n");
         return NULL;
-        }
-        if(pthread_cond_init(&c->cond,NULL) !=  0)
-        {
+    }
+    if (pthread_cond_init(&c->cond, NULL) != 0)
+    {
         free(c);
         return NULL;
-        }
-        return c;
+    }
+    return c;
 }
 
-void CondWait(Cond *c,Mutex *m)
+void CondWait(Cond *c, Mutex *m)
 {
-    pthread_cond_wait(&c->cond,&m->mutex);
+    pthread_cond_wait(&c->cond, &m->mutex);
 }
 
 void CondSignal(Cond *c)

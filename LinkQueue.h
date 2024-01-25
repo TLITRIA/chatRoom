@@ -9,17 +9,17 @@ struct LinkQueue
 
 typedef struct LinkQueue LQueue;
 
-void InitLinkQueue(LQueue* q);
+void InitLinkQueue(LQueue *q);
 
-void QPush(LQueue* q, ElementType element);
+void QPush(LQueue *q, ElementType element);
 
-void QPop(LQueue* q);
+void QPop(LQueue *q);
 
-ElementType* GetFront(LQueue* q);
+ElementType *GetFront(LQueue *q);
 
 void FreeQueue(LQueue *q);
-bool IsQueueEmpty(LQueue* q);
+bool IsQueueEmpty(LQueue *q);
 
-int GetQueueLen(LQueue* q);
+int GetQueueLen(LQueue *q);
 
 #endif
