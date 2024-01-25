@@ -12,7 +12,7 @@
 #include <unistd.h>
 
 
-#define ip "172.21.124.113"
+#define ip "127.0.0.1"
 #define port 8080
 #define USERNAMESIZE 150
 #define FRIENDNAMESIZE 20

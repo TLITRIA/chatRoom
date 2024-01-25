@@ -1,60 +1,43 @@
-# 自定义变量
-OBJ1=DoubleLinkList.o GlobalMessage.o LinkQueue.o MyString.o StdSqlite.o StdTcp.o StdThread.o StdThreadPool.o server.o
-TARGET1=server
+all:client server
 
-# 使用$(TARGET) 必须要加 ‘$’ 符号
+# 客户端程序
+client:client.o StdTcp.o StdThread.o GlobalMessage.o DoubleLinkList.o 
+	gcc client.o StdTcp.o StdThread.o GlobalMessage.o DoubleLinkList.o -o client -lsqlite3
 
-$(TARGET1):$(OBJ1)
-	gcc $^ -o $@ -lsqlite3
-
-DoubleLinkList.o:DoubleLinkList.c
-	gcc -c $^ -o $@
-
-GlobalMessage.o:GlobalMessage.c
-	gcc -c $^ -o $@
-
-LinkQueue.o:LinkQueue.c
-	gcc -c $^ -o $@
-
-MyString.o:MyString.c
-	gcc -c $^ -o $@
-
-StdSqlite.o:StdSqlite.c
-	gcc -c $^ -o $@
-
-StdTcp.o:StdTcp.c
-	gcc -c $^ -o $@
-
-StdThread.o:StdThread.c
-	gcc -c $^ -o $@
-
-StdThreadPool.o:StdThreadPool.c
-	gcc -c $^ -o $@
+# 服务端程序
+server:server.o StdThread.o StdSqlite.o MyString.o StdThreadPool.o DoubleLinkList.o GlobalMessage.o StdTcp.o LinkQueue.o
+	gcc server.o StdThread.o StdSqlite.o MyString.o StdThreadPool.o DoubleLinkList.o GlobalMessage.o StdTcp.o LinkQueue.o -o server -lsqlite3
 
 server.o:server.c
-	gcc -c $^ -o $@ 
-
-# 自定义变量
-OBJ2=GlobalMessage.o  StdTcp.o client.o StdThread.o DoubleLinkList.o
-TARGET2=client
-
-$(TARGET2):$(OBJ2)
-	gcc $^ -o $@ 
-
-DoubleLinkList.o:DoubleLinkList.c
-	gcc -c $^ -o $@
-
-GlobalMessage.o:GlobalMessage.c
-	gcc -c $^ -o $@
-
-StdTcp.o:StdTcp.c
-	gcc -c $^ -o $@
-
-StdThread.o:StdThread.c
-	gcc -c $^ -o $@
+	gcc -c server.c -o server.o
 
 client.o:client.c
-	gcc -c $^ -o $@
+	gcc -c client.c -o client.o
+
+LinkQueue.o:LinkQueue.c
+	gcc -c LinkQueue.c -o LinkQueue.o
+
+StdSqlite.o:StdSqlite.c
+	gcc -c StdSqlite.c -o StdSqlite.o
+
+
+StdThread.o:StdThread.c
+	gcc -c StdThread.c -o StdThread.o
+
+StdThreadPool.o:StdThreadPool.c 
+	gcc -c StdThreadPool.c -o StdThreadPool.o
+
+MyString.o:MyString.c
+	gcc -c MyString.c -o MyString.o
+
+DoubleLinkList.o:DoubleLinkList.c
+	gcc -c DoubleLinkList.c -o DoubleLinkList.o
+
+GlobalMessage.o:GlobalMessage.c
+	gcc -c GlobalMessage.c -o GlobalMessage.o
+
+StdTcp.o:StdTcp.c
+	gcc -c StdTcp.c -o StdTcp.o
 
 clean:
-	@rm -rf *.o $(TARGET)
+	@rm -rf *.o client server
