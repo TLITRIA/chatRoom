@@ -26,6 +26,10 @@ static SQL *d;            // 数据库句柄
 pthread_mutex_t loginmutex;
 pthread_mutex_t groupmutex;
 
+//锁
+pthread_mutex_t loginmutex;
+pthread_mutex_t groupmutex;
+
 //删除好友
 int deletefriend(int clientfd, Msg m)
 {
@@ -488,6 +492,7 @@ void* clientHandler(void *arg)
                 deletefriend(clientfd, m);
                 break;
             case BUILDGROUP:
+<<<<<<< HEAD
                 
                 buildGroup(clientfd, m, Name);
                 break;
@@ -497,6 +502,175 @@ void* clientHandler(void *arg)
                 break;
             case QUITGROUP:
                 
+=======
+                // char groupname[GROUPNAMESIZE + BUFFER_SZIE];
+                // memset(groupname, 0, sizeof(groupname));
+                // strcpy(groupname, m.content);
+                // char sql5[SQLSIZE + BUFFER_SZIE] = {0};
+                // sprintf(sql5, "select * from Queue where groupname = '%s';", groupname);
+                
+                // //加锁
+                // pthread_mutex_lock(&groupmutex);
+                //  ret = searchIsExist(d, sql5);
+                // if(ret != 0)  //已经有其他客户端建立了群，不可建立群名一样的群
+                // {
+                //     printf("1111111222222222\n");
+                //     pthread_mutex_unlock(&groupmutex);
+                //     m.cmd = BUILDGROUPFAIL;
+                //     memset(m.content, 0, sizeof(m.content));
+                //     strcpy(m.content, "建群失败,已经有其他客户端建立了群,不可建立群名一样的群");
+                //     TcpServerSend(clientfd, &m, sizeof(m));
+                    
+                // }
+                // else
+                // {
+                //     //可以建群
+                //     //m.cmd = BUILDGROUPSUCCESS;
+                //     printf("1111111\n");
+                //     printf("%s\n", Name);
+                //     memset(sql5, 0, sizeof(sql5));
+                //     //插入到唯一的群表
+                //     sprintf(sql5, "insert into Queue values('%s');", m.content);
+                //     if(SqliteExec(d, sql5) == true)
+                //     {
+                //         pthread_mutex_unlock(&groupmutex);
+                //         memset(sql5, 0, sizeof(sql5));
+                //         sprintf(sql5, "create table if not exists %s(name text);", m.content);
+                //         if(SqliteExec(d, sql5) == true)
+                //         {
+                //             memset(sql5, 0, sizeof(sql5));
+                //             //把群主插入到他所建立的群里面
+                //             sprintf(sql5, "insert into %s values('%s');", m.content, Name);
+                //             if(SqliteExec(d, sql5) == true)
+                //             {
+                //                 memset(sql5, 0, sizeof(sql5));
+                //                 //在群主的那个客户端表里插入群
+                //                 sprintf(sql5, "insert into %s values('%s', 2);", Name, m.content);
+                //                 SqliteExec(d, sql5);
+                //                 m.cmd = BUILDGROUPSUCCESS;
+                //                 TcpServerSend(clientfd, &m, sizeof(m));
+                //             }
+                //         }
+                        
+                //     }
+                   
+
+                // }
+                buildGroup(clientfd, m, Name);
+                break;
+            case ADDGROUP:
+                // char groupname[GROUPNAMESIZE + BUFFER_SZIE];
+                // memset(groupname, 0, sizeof(groupname));
+                // strcpy(groupname, m.content);
+                // char sql5[SQLSIZE + BUFFER_SZIE] = {0};
+                // sprintf(sql5, "select * from Queue where groupname = '%s';", groupname);
+                
+                // //加锁
+                // pthread_mutex_lock(&groupmutex);
+                // //先查看有没有这个群
+                // ret = searchIsExist(d, sql5);
+                // if(ret == 0)  //没有这个群, 加群失败
+                // {
+                 
+                //     pthread_mutex_unlock(&groupmutex);
+                //     m.cmd = ADDGROUPFAIL;
+                //     memset(m.content, 0, sizeof(m.content)); 
+                //     strcpy(m.content, "加群失败,群表里不存在你要加的群");
+                //     TcpServerSend(clientfd, &m, sizeof(m));
+                // }
+                // else  //存在这个群， 分两种情况, 用户在与不在这个群， 在则加群失败， 不在则加群成功
+                // {
+                //     pthread_mutex_unlock(&groupmutex);
+
+                //     memset(sql5, 0, sizeof(sql5));
+                //     sprintf(sql5, "select * from %s where name = '%s';", groupname, Name);
+                //     ret = searchIsExist(d, sql5);
+                //     if(ret != 0)  //用户存在这个群里， 加群失败
+                //     {
+                //       m.cmd = ADDGROUPFAIL;
+                //       memset(m.content, 0, sizeof(m.content));
+                //       strcpy(m.content, "你已经处在你要加入的群里, 不可以重复加入!");
+                //       TcpServerSend(clientfd, &m, sizeof(m));
+                //     }
+                //     else     //用户不存在这个群里里， 可以加群
+                //     {
+                //       memset(sql5, 0, sizeof(sql5));
+                //       //把客户导入到所要加的群表里
+                //       sprintf(sql5, "insert into %s values('%s');", groupname, Name);
+                //       if(SqliteExec(d, sql5) == true)  
+                //       {
+                //           //更新客户那张表， 增加一个群
+                //           memset(sql5, 0, sizeof(sql5));
+                //           sprintf(sql5, "insert into %s values('%s', 2);", Name, groupname);
+                //           if(SqliteExec(d, sql5) == true)
+                //           {
+                //             m.cmd = ADDGROUPSUCCESS;
+                //             memset(m.content, 0, sizeof(m.content));
+                //             TcpServerSend(clientfd, &m, sizeof(m));
+                //           }
+                    
+                //       }
+                //     }
+                // }
+                addGroup(clientfd, m, Name);
+                break;
+            case QUITGROUP:
+                // char groupname[GROUPNAMESIZE + BUFFER_SZIE];
+                // memset(groupname, 0, sizeof(groupname));
+                // strcpy(groupname, m.content);
+                // char sql5[SQLSIZE + BUFFER_SZIE] = {0};
+                // sprintf(sql5, "select * from Queue where groupname = '%s';", groupname);
+                
+                // //加锁
+                // pthread_mutex_lock(&groupmutex);
+                // //先查看有没有这个群 
+                // ret = searchIsExist(d, sql5); 
+                // if(ret == 0)  //没有这个群 , 退群失败
+                // {
+                //       pthread_mutex_unlock(&groupmutex);
+                //       m.cmd = QUITGROUPFAIL;
+                //       memset(m.content, 0, sizeof(m.content)); 
+                //       strcpy(m.content, "退群失败,群表里不存在你要退的群");
+                //       TcpServerSend(clientfd, &m, sizeof(m));
+                // }
+                // else     //存在这个群， 分两种情况, 用户在与不在这个群， 在则退群成功，不在则退群失败
+                // {
+                //     pthread_mutex_unlock(&groupmutex);
+
+                //     memset(sql5, 0, sizeof(sql5));
+                //     sprintf(sql5, "select * from %s where name = '%s';", groupname, Name);
+                //     ret = searchIsExist(d, sql5);
+                //     if(ret == 0)  //用户不存在存在这个群里， 退群失败
+                //     {
+                //       m.cmd = QUITGROUPFAIL;
+                //       memset(m.content, 0, sizeof(m.content));
+                //       strcpy(m.content, "你并不处在你要退出的群里, 不可以退群!");
+                //       TcpServerSend(clientfd, &m, sizeof(m));
+                //     }
+                //     else
+                //     {
+                //       //用户存在这个群里里， 可以退群
+                    
+                //       memset(sql5, 0, sizeof(sql5));
+                //       //把客户从所要退的群表里删除
+                //       sprintf(sql5, "delete from %s where name = '%s';", groupname, Name);
+                //       if(SqliteExec(d, sql5) == true)  
+                //       {
+                //           //更新客户那张表， 删除一个群
+                //           memset(sql5, 0, sizeof(sql5));
+                //           sprintf(sql5, "delete from %s where name = '%s';", Name, groupname);
+                //           if(SqliteExec(d, sql5) == true)
+                //           {
+                //             m.cmd = QUITGROUPSUCCESS;
+                //             memset(m.content, 0, sizeof(m.content));
+                //             TcpServerSend(clientfd, &m, sizeof(m));
+                //           }
+                    
+                //       }
+                    
+                //     }
+                // }
+>>>>>>> DZ
                 quitGroup(clientfd, m, Name);
                 break;
                default:
@@ -510,11 +684,21 @@ void* clientHandler(void *arg)
 
 void InitDB()
 {
+<<<<<<< HEAD
   d = InitSqlite("server.db"); // 本地文件
   SqliteExec(d, "create table if not exists SignupClient(Username text,Password text);");
   SqliteExec(d, "create table if not exists LoginClient(Username text, Clientfd integer);");
   //    SqliteExec(d,"create table if not exists RootClient(Username text);");
   //    SqliteExec(d,"create table if not exists VipClient(Username text);");
+=======
+   d = InitSqlite("server.db");  //本地文件
+   SqliteExec(d,"create table if not exists SignupClient(Username text,Password text);");
+   SqliteExec(d,"create table if not exists LoginClient(Username text, Clientfd integer);");
+   SqliteExec(d, "create table if not exists Log(from_name text, log_data text, to_name text);");
+   SqliteExec(d, "create table if not exists Queue(groupname text);");
+//    SqliteExec(d,"create table if not exists RootClient(Username text);");
+//    SqliteExec(d,"create table if not exists VipClient(Username text);");
+>>>>>>> DZ
 }
 
 int main()

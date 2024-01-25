@@ -98,6 +98,60 @@ int deletefriend(TcpC *c)
 
 //建立群
 int buildgroup(TcpC *c, Msg m)
+<<<<<<< HEAD
+=======
+{
+    int ret = 0;
+    printf("请输入你要建立的群名:");
+    scanf("%s", m.content);
+    while(getchar() != '\n');
+    if(TcpClientSend(c, &m, sizeof(m)) == false)
+    {
+        perror("send");
+        return -1;
+    }
+
+
+    return ret;
+}
+
+//加群
+int addgroup(TcpC *c, Msg m)
+{
+    int ret = 0;
+    printf("请输入你要加入的群名:");
+    scanf("%s", m.content);
+    while(getchar() != '\n');
+    if(TcpClientSend(c, &m, sizeof(m)) == false)
+    {
+        perror("send");
+        return -1;
+    }
+
+
+    return ret;
+}
+
+//退群
+int quitgroup(TcpC *c, Msg m)
+{
+    int ret = 0;
+    printf("请输入你要退出的群名:");
+    scanf("%s", m.content);
+    while(getchar() != '\n');
+    if(TcpClientSend(c, &m, sizeof(m)) == false)
+    {
+        perror("send");
+        return -1;
+    }
+
+
+    return ret;
+}
+
+// DLlist friendlist;
+void SendMessage(TcpC *c,Msg m)
+>>>>>>> DZ
 {
     int ret = 0;
     printf("请输入你要建立的群名:");
