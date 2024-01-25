@@ -684,13 +684,7 @@ void* clientHandler(void *arg)
 
 void InitDB()
 {
-<<<<<<< HEAD
-  d = InitSqlite("server.db"); // 本地文件
-  SqliteExec(d, "create table if not exists SignupClient(Username text,Password text);");
-  SqliteExec(d, "create table if not exists LoginClient(Username text, Clientfd integer);");
-  //    SqliteExec(d,"create table if not exists RootClient(Username text);");
-  //    SqliteExec(d,"create table if not exists VipClient(Username text);");
-=======
+
    d = InitSqlite("server.db");  //本地文件
    SqliteExec(d,"create table if not exists SignupClient(Username text,Password text);");
    SqliteExec(d,"create table if not exists LoginClient(Username text, Clientfd integer);");
@@ -698,7 +692,7 @@ void InitDB()
    SqliteExec(d, "create table if not exists Queue(groupname text);");
 //    SqliteExec(d,"create table if not exists RootClient(Username text);");
 //    SqliteExec(d,"create table if not exists VipClient(Username text);");
->>>>>>> DZ
+
 }
 
 int main()
