@@ -77,7 +77,7 @@ int searchIsExist(SQL *s, const char *sql) // 判断数据库表里是否有这�
     return row;
 }
 
-int GetTableVal(SQL *s, const char *sql, char *ptr, int pos) // 获取结果集中的某个元素
+int GetTableVal(SQL *s,const char *sql, char *ptr, int *val, int pos) //获取结果集中的某个元素
 {
     char **result;
     int row = 0, column = 0;
@@ -86,9 +86,18 @@ int GetTableVal(SQL *s, const char *sql, char *ptr, int pos) // 获取结果集�
         printf("error msg:%s\n", sqlite3_errmsg(s->db));
         return -1;
     }
+    if(val != NULL)
+    {
+        *val = (int)result[row * column + pos];
+    }
+
+    if(ptr != NULL)
+    {
+        strcpy(ptr, result[row * column + pos]);
+    }
     // printf("column = %d\n", column);
-    // printf("%s\n", result[row * column + 1]);
-    strcpy(ptr, result[row * column + pos]);
+    //printf("%s\n", result[row * column + 1]);
+    
     // if(row == 0)
     // {
     //    sqlite3_free_table(result);

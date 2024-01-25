@@ -28,8 +28,8 @@ void printChatroom() // 打印登录成功后的功能页面
     printf("\033[0;35m|                       5.加好友                    |\033[m\n");
     printf("\033[0;35m|                       6.删好友                    |\033[m\n");
     printf("\033[0;34m|                       7.建群                      |\033[m\n");
-    printf("\033[0;35m|                                                   |\033[m\n");
-    printf("\033[0;35m|                                                   |\033[m\n");
+    printf("\033[0;35m|                       8.加群                      |\033[m\n");
+    printf("\033[0;35m|                       9.退群                      |\033[m\n");
     printf("\033[0;35m|                                                   |\033[m\n");
     printf("\033[0;35m|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\033[m\n");
 }
@@ -96,6 +96,57 @@ int deletefriend(TcpC *c)
     return ret;
 }
 
+//建立群
+int buildgroup(TcpC *c, Msg m)
+{
+    int ret = 0;
+    printf("请输入你要建立的群名:");
+    scanf("%s", m.content);
+    while(getchar() != '\n');
+    if(TcpClientSend(c, &m, sizeof(m)) == false)
+    {
+        perror("send");
+        return -1;
+    }
+
+
+    return ret;
+}
+
+//加群
+int addgroup(TcpC *c, Msg m)
+{
+    int ret = 0;
+    printf("请输入你要加入的群名:");
+    scanf("%s", m.content);
+    while(getchar() != '\n');
+    if(TcpClientSend(c, &m, sizeof(m)) == false)
+    {
+        perror("send");
+        return -1;
+    }
+
+
+    return ret;
+}
+
+//退群
+int quitgroup(TcpC *c, Msg m)
+{
+    int ret = 0;
+    printf("请输入你要退出的群名:");
+    scanf("%s", m.content);
+    while(getchar() != '\n');
+    if(TcpClientSend(c, &m, sizeof(m)) == false)
+    {
+        perror("send");
+        return -1;
+    }
+
+
+    return ret;
+}
+
 // DLlist friendlist;
 void SendMessage(TcpC *c, Msg m)
 {
@@ -115,24 +166,39 @@ void SendMessage(TcpC *c, Msg m)
         switch (choice)
         {
         case CHAT:
-            m.cmd = CHAT;
-            printCHAT();
+            
             printf("请输入你要私聊的用户:");
-            // memset(m.con)
-            // printf("请输入你要发送消息的用户名:");
-            // memset(&m.toName,0,sizeof(m.toName));
-            // scanf("%s",m.toName);
-            // while(getchar() != '\n');
-            // memset(&m.content,0,sizeof(m.content));
-            // printf("请输入你要发送的消息：");
-            // scanf("%s",m.content);
-            // while(getchar() != '\n');
+            memset(m.toName, 0, sizeof(m.toName));
+            scanf("%s", m.toName);
+            while(getchar() != '\n');
+            printCHAT();
 
-            // if(TcpClientSend(c,&m,sizeof(m)) == false)
-            // {
-            //     perror("send");
-            //     return;
-            // }
+            while(1)
+            {
+               m.cmd = CHAT;
+               memset(m.content, 0, sizeof(m.content));
+               scanf("%s", m.content);
+               while(getchar() != '\n'); 
+               if(strcmp(m.content, "w!") == 0)
+               {
+                 /*
+                 to do.........
+                 */
+               }
+               else if(strcmp(m.content, "q!") == 0)
+               {
+                   break;
+               }
+               else
+               {
+                    if(TcpClientSend(c,&m,sizeof(m)) == false)
+                    {
+                        perror("send");
+                        return;
+                    }
+               }
+            }
+
             break;
         case ALLCHAT:
             m.cmd = ALLCHAT;
@@ -157,6 +223,21 @@ void SendMessage(TcpC *c, Msg m)
             TcpClientSend(c, &m, sizeof(m));
             deletefriend(c);
             break;
+        case BUILDGROUP:
+            memset(&m, 0, sizeof(m));
+            m.cmd = BUILDGROUP;
+            buildgroup(c, m);
+            break;
+        case ADDGROUP:
+            memset(&m, 0, sizeof(m));
+            m.cmd = ADDGROUP;
+            addgroup(c, m);
+            break;
+        case QUITGROUP:
+            memset(&m, 0, sizeof(m));
+            m.cmd = QUITGROUP;
+            quitgroup(c, m);
+            break;
         default:
             break;
         }
@@ -176,20 +257,44 @@ void *RecvMessage(void *arg)
         }
         switch (m.cmd)
         {
-        case ADDFRIENDSUCCESS:
-            printf("添加好友成功!\n");
-            break;
-        case ADDFRIENDFAIL:
-            printf("%s\n", m.content);
-            break;
-        case DELETEFRIENDSUCCESS:
-            printf("删除好友成功!\n");
-            break;
-        case DELETEFRIENDFAIL:
-            printf("%s\n", m.content);
-            break;
-        default:
-            break;
+            case ADDFRIENDSUCCESS:
+                       printf("添加好友成功!\n");
+                       break;
+            case ADDFRIENDFAIL:
+                       printf("%s\n", m.content);
+                       break;
+            case DELETEFRIENDSUCCESS:
+                       printf("删除好友成功!\n");
+                       break;
+            case DELETEFRIENDFAIL:
+                       printf("%s\n", m.content);
+                       break;
+            case CHATFAIL:
+                       printf("%s\n", m.content);
+                       break;
+            case CHATSUCCESS:
+                       printf("%s\n", m.content);
+                       break;
+            case BUILDGROUPFAIL:
+                       printf("%s\n", m.content);
+                       break;
+            case BUILDGROUPSUCCESS:
+                       printf("建立群成功!\n");
+                       break;
+            case ADDGROUPFAIL:
+                       printf("%s\n", m.content);
+                       break;
+            case ADDGROUPSUCCESS:
+                       printf("加群成功!\n");
+                       break;
+            case QUITGROUPFAIL: 
+                       printf("%s\n", m.content);
+                       break;
+            case QUITGROUPSUCCESS:
+                       printf("退群成功!\n");
+                       break;
+                default:
+                        break;
         }
     }
 }
