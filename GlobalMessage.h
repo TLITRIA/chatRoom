@@ -11,10 +11,21 @@ enum CMD
     ALLCHAT,//群聊
     ADDFRIEND, //加好友
     DELETEFRIEND, //删好友
+    BUILDGROUP, //建群
+    ADDGROUP,  //加群
+    QUITGROUP, //退群
     ADDFRIENDFAIL, //加好友失败
     ADDFRIENDSUCCESS, //加好友成功
     DELETEFRIENDFAIL, //删除好友失败
     DELETEFRIENDSUCCESS, //删除好友成功
+    BUILDGROUPFAIL, //建立群失败
+    BUILDGROUPSUCCESS, //建立群成功
+    ADDGROUPFAIL, //加群失败
+    ADDGROUPSUCCESS, //加群成功
+    QUITGROUPFAIL, //退群失败
+    QUITGROUPSUCCESS, //退群成功
+    CHATFAIL, //私聊失败
+    CHATSUCCESS, //私聊成功
     fileReady,//准备发文件
     fileagree,//同意
     filerefuse,//拒绝
