@@ -98,8 +98,6 @@ int deletefriend(TcpC *c)
 
 //建立群
 int buildgroup(TcpC *c, Msg m)
-<<<<<<< HEAD
-=======
 {
     int ret = 0;
     printf("请输入你要建立的群名:");
@@ -151,7 +149,6 @@ int quitgroup(TcpC *c, Msg m)
 
 // DLlist friendlist;
 void SendMessage(TcpC *c,Msg m)
->>>>>>> DZ
 {
     int ret = 0;
     printf("请输入你要建立的群名:");

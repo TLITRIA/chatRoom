@@ -492,17 +492,6 @@ void* clientHandler(void *arg)
                 deletefriend(clientfd, m);
                 break;
             case BUILDGROUP:
-<<<<<<< HEAD
-                
-                buildGroup(clientfd, m, Name);
-                break;
-            case ADDGROUP:
-               
-                addGroup(clientfd, m, Name);
-                break;
-            case QUITGROUP:
-                
-=======
                 // char groupname[GROUPNAMESIZE + BUFFER_SZIE];
                 // memset(groupname, 0, sizeof(groupname));
                 // strcpy(groupname, m.content);
@@ -670,7 +659,6 @@ void* clientHandler(void *arg)
                     
                 //     }
                 // }
->>>>>>> DZ
                 quitGroup(clientfd, m, Name);
                 break;
                default:
