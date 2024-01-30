@@ -88,7 +88,7 @@ int GetTableVal(SQL *s,const char *sql, char *ptr, int *val, int pos) //获取�
     }
     if(val != NULL)
     {
-        *val = (int)result[row * column + pos];
+        *val = strtol(result[row * column + pos], NULL, 0);
     }
 
     if(ptr != NULL)

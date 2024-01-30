@@ -11,6 +11,7 @@
 #include "GlobalMessage.h"
 #include "StdTcp.h"
 #include <unistd.h>
+#include "onLine.h"
 
 
 #define ip "127.0.0.1"
@@ -21,6 +22,7 @@
 #define SQLSIZE 150
 static DLlist ClientList; // 客户端信息链表
 static SQL *d;            // 数据库句柄
+onLineOutside *PonLine = NULL; //在线表
 
 //锁
 pthread_mutex_t loginmutex;
@@ -29,9 +31,24 @@ pthread_mutex_t groupmutex;
 //锁
 pthread_mutex_t loginmutex;
 pthread_mutex_t groupmutex;
+
+int obtainFunc(ELEMENTTYPE val)
+{
+    onLline *num = (onLline *)val;
+    return num->sockfd;
+}
+
+/* 比较基础数据*/
+int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2)
+{
+    int ret = 0;
+    onLline *num1 = (onLline *)val1;
+    onLline *num2 = (onLline *)val2;
+    return strncmp(num1->name, num2->name, strlen(num1->name) < strlen(num2->name) ? strlen(num1->name) : strlen(num2->name));
+}
 
 //删除好友
-int deletefriend(int clientfd, Msg m)
+int deletefriend(int clientfd, Msg m, const char * Name)
 {
   int ret = 0;
   char friendname[FRIENDNAMESIZE] = {0};
@@ -40,8 +57,9 @@ int deletefriend(int clientfd, Msg m)
   memset(sql2, 0, sizeof(sql2));
   //从在线链表中获取结果集
   char name[FRIENDNAMESIZE] = {0};
-  sprintf(sql2,"select * from LoginClient where Clientfd = %d;", clientfd);
-  GetTableVal(d, sql2, name, NULL, 0);
+  // sprintf(sql2,"select * from LoginClient where Clientfd = %d;", clientfd);
+  // GetTableVal(d, sql2, name, NULL, 0);
+  strncpy(name, Name, strlen(Name));
 
   memset(sql2, 0, sizeof(sql2));
   sprintf(sql2, "select * from %s where name = '%s';", name, friendname);
@@ -57,9 +75,14 @@ int deletefriend(int clientfd, Msg m)
   }
   else if (ret != 0) // 是好友, 可以删除, 查是否在线
   {
-    memset(sql2, 0, sizeof(sql2));
-    sprintf(sql2, "select * from LoginClient where Username = '%s';", friendname);
-    ret = searchIsExist(d, sql2);
+    // memset(sql2, 0, sizeof(sql2));
+    // sprintf(sql2, "select * from LoginClient where Username = '%s';", friendname);
+    // ret = searchIsExist(d, sql2);
+    onLline info3;
+    strncpy(info3.name, friendname, sizeof(friendname) - 1);
+    info3.sockfd = -1;
+    ret = onLineIsContainVal(PonLine, (void *)&info3);
+
     if (ret == 0) // 不在线
     {
       m.cmd = DELETEFRIENDFAIL;
@@ -272,11 +295,13 @@ void* clientHandler(void *arg)
   {
 
     Msg m;
+    onLline info;
     if (TcpServerRecv(clientfd, &m, sizeof(m)) == false)
     {
-      char sql[SQLSIZE] = {0};
-      sprintf(sql, "delete from LoginClient where Clientfd = %d;", tmp);
-      SqliteExec(d, sql);
+      // char sql[SQLSIZE] = {0};
+      // sprintf(sql, "delete from LoginClient where Clientfd = %d;", tmp);
+      // SqliteExec(d, sql);    
+      onLineRemove(PonLine, (void *)&info);
       break;
     }
     CInfo *c;
@@ -284,12 +309,14 @@ void* clientHandler(void *arg)
     struct Node *n2;
     int ret = 0;
     int flag = 0;
+
     c = CreateInfo(m.fromName, clientfd);
     InsertDLlistTail(&ClientList, c);
     switch (m.cmd)
     {
             case LOGIN:
                   char sql[USERNAMESIZE] = {0};
+                  
                   sprintf(sql, "select * from SignupClient where Username = '%s' and Password = '%s';", m.fromName, m.password);
                   ret = searchIsExist(d, sql);
                   if(ret == 0)
@@ -304,15 +331,17 @@ void* clientHandler(void *arg)
                   else
                   {
                     //用户名密码正确，查询是否已经登录
-                    memset(sql, 0, sizeof(sql));
-                    sprintf(sql, "select * from LoginClient where Username = '%s';", m.fromName);
-                    ret = searchIsExist(d, sql);
+                    // memset(sql, 0, sizeof(sql));
+                    // sprintf(sql, "select * from LoginClient where Username = '%s';", m.fromName);
+                    strncpy(info.name, m.fromName, sizeof(m.fromName) - 1);
+                    info.sockfd = clientfd;
+                    printf("s:%s  b:%d\n", info.name, info.sockfd);
+                    
+                    ret = onLineIsContainVal(PonLine, (void *)&info);
                     if(ret == 0)
                     {
                       //用户未登录
-                      memset(sql, 0, sizeof(sql));
-                      sprintf(sql, "insert into LoginClient values('%s', %d);", m.fromName, clientfd);
-                      if(SqliteExec(d,sql) == true)
+                      if(onLineInsert(PonLine, (void *)&info))
                       {
                          //记录客户端姓名
                          strcpy(Name, m.fromName);
@@ -387,10 +416,13 @@ void* clientHandler(void *arg)
                 //如果处在，则把消息直接发送过去，并保存记录，如果不处在, 则保存聊天记录直到私聊对象处在那个界面
                 //再打印消息，如果离线，则保存聊天记录直到上线处在私聊界面
                 char sql3[SQLSIZE] = {0};
-                sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
+                //sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
+                onLline info1;
+                strncpy(info1.name, m.fromName, sizeof(m.fromName) - 1);
+                info1.sockfd = -1;
                 //查询在线链表
                 pthread_mutex_lock(&loginmutex);
-                int ret = searchIsExist(d, sql3);
+                int ret = onLineIsContainVal(PonLine, (void *)&info1);
                 pthread_mutex_unlock(&loginmutex);
                 if(ret == 0)    //不在线发不过去
                 {
@@ -403,8 +435,9 @@ void* clientHandler(void *arg)
                 {
                   //获取私聊对象的套接字
                   int tonamefd = 0;
-                  memset(sql3, 0, sizeof(sql3));
-                  sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
+                  // memset(sql3, 0, sizeof(sql3));
+                  // sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
+                  onLineObtainValVal(PonLine, (void *)&info1, &tonamefd, obtainFunc);
                   //这里要不要加锁?
                   GetTableVal(d, sql3, NULL, &tonamefd, 1);
                   printf("%d\n", tonamefd);
@@ -445,10 +478,12 @@ void* clientHandler(void *arg)
                 char sql2[SQLSIZE];
                 memset(sql2, 0, sizeof(sql2));
                 char name[FRIENDNAMESIZE] = {0};
-                sprintf(sql2,"select * from LoginClient where Clientfd = %d;", clientfd);
-                GetTableVal(d, sql2, name, NULL, 0);
+                // sprintf(sql2,"select * from LoginClient where Clientfd = %d;", clientfd);
+                // GetTableVal(d, sql2, name, NULL, 0);
+                strncpy(name, Name, strlen(Name));
                 memset(sql2, 0, sizeof(sql2));
                 sprintf(sql2,"select * from %s where name = '%s';", name, friendname);
+                printf("name=%s\n", name);
                 printf("%s\n", sql2);
                 //先查一遍是不是已经是好友， 是则不用再添加
                 ret = searchIsExist(d, sql2);
@@ -462,8 +497,15 @@ void* clientHandler(void *arg)
                 else if(ret == 0) //不是好友，查询是否在线
                 {
                   memset(sql2, 0 , sizeof(sql2));
-                  sprintf(sql2,"select * from LoginClient where Username = '%s';", friendname);
-                  ret = searchIsExist(d, sql2);
+                  // sprintf(sql2,"select * from LoginClient where Username = '%s';", friendname);
+                  // ret = searchIsExist(d, sql2);
+                  onLline info2;
+                  strncpy(info2.name, friendname, sizeof(friendname) - 1);
+                  info2.sockfd = -1;
+                  printf("info.name%s  info.fd%d\n", info2.name, info2.sockfd);
+                  ret = onLineIsContainVal(PonLine, (void *)&info2);
+                  printf("qret%d\n", ret);
+
                   if(ret == 0)  //不在线
                   {
                     m.cmd = ADDFRIENDFAIL;
@@ -489,7 +531,7 @@ void* clientHandler(void *arg)
                 break;
             case DELETEFRIEND:
               
-                deletefriend(clientfd, m);
+                deletefriend(clientfd, m, Name);
                 break;
             case BUILDGROUP:
                 // char groupname[GROUPNAMESIZE + BUFFER_SZIE];
@@ -695,6 +737,8 @@ int main()
    //初始化锁
    pthread_mutex_init(&loginmutex, NULL);
    pthread_mutex_init(&groupmutex, NULL);
+   /* 初始化在线表*/
+   onLineInit(&PonLine, compareFunc);
 
     InitDLlist(&ClientList);
     int clientfd = 0;
