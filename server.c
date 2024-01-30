@@ -41,7 +41,7 @@ int deletefriend(int clientfd, Msg m)
   //从在线链表中获取结果集
   char name[FRIENDNAMESIZE] = {0};
   sprintf(sql2,"select * from LoginClient where Clientfd = %d;", clientfd);
-  GetTableVal(d, sql2, name, NULL, 0);
+  GetTableVal(d, sql2, name, NULL, 0, 0);
 
   memset(sql2, 0, sizeof(sql2));
   sprintf(sql2, "select * from %s where name = '%s';", name, friendname);
@@ -263,6 +263,85 @@ int quitGroup(int clientfd, Msg m, const char *Name)
   return ret;
 }
 
+int chatfriend(int clientfd, Msg m, const char *Name)
+{
+  int ret = 0;
+  char sql3[SQLSIZE + BUFFER_SZIE] = {0};
+  // char ptr[BUFFER_SZIE] = {0};
+  // sprintf(sql3, "select log_data from Log where (from_name = '%s' and to_name = '%s') or (from_name = '%s' and to_name = '%s');", Name, m.toName, m.toName, Name);
+
+  // int row = GetTableVal(d, sql3, ptr, NULL, 1, 1);
+
+  // for(int idx = 1; idx <= row; idx++)
+  // {
+    
+  //   GetTableVal(d, sql3, ptr, NULL, 1, idx);
+    
+  //   TcpServerSend(clientfd, ptr, sizeof(ptr));
+    
+  // }
+  //先查一遍是不是自己的好友,再看是不是在线
+  sprintf(sql3, "select * from %s where name = '%s' and flag = %d;", Name, m.toName, 1);
+  ret = searchIsExist(d, sql3); 
+  if(ret == 0) //不是自己的好友， 私聊失败
+  {
+      
+      m.cmd = CHATFAIL;
+      memset(m.content, 0, sizeof(m.content));
+      strcpy(m.content, "你要私聊的对象不是你的好友, 私聊失败!");
+      TcpServerSend(clientfd, &m, sizeof(m));
+  } 
+  else    //是好友，查看是否在线
+  {
+      memset(sql3, 0, sizeof(sql3));
+      sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
+      //查询在线链表
+      pthread_mutex_lock(&loginmutex);
+      int ret = searchIsExist(d, sql3);
+      pthread_mutex_unlock(&loginmutex);
+      if(ret == 0)    //不在线发不过去
+      {
+        m.cmd = CHATFAIL;
+        
+        //  char ptr[BUFFER_SZIE] = {0};
+        // sprintf(sql3, "select log_data from Log where (from_name = '%s' and to_name = '%s') or (from_name = '%s' and to_name = '%s');", Name, m.toName, m.toName, Name);
+        
+        // int row = GetTableVal(d, sql3, ptr, NULL, 1, 1);
+        
+        // for(int idx = 1; idx <= row; idx++)
+        // {
+          
+        //   GetTableVal(d, sql3, ptr, NULL, 1, idx);
+          
+        //   TcpServerSend(clientfd, ptr, sizeof(ptr));
+          
+        // }
+        memset(m.content, 0, sizeof(m.content));
+        strcpy(m.content, "发送失败,你要私聊的好友不在线!");
+        TcpServerSend(clientfd, &m, sizeof(m));
+      }
+      else //在线， 可以发过去
+      {
+        //获取私聊对象的套接字
+        int tonamefd = 0;
+        //保存聊天记录到表里
+        memset(sql3, 0 , sizeof(sql3));
+        sprintf(sql3, "insert into Log values('%s', '%s', '%s');", Name, m.content, m.toName);
+        SqliteExec(d, sql3);
+        memset(sql3, 0, sizeof(sql3));
+        sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
+        //这里要不要加锁?
+        GetTableVal(d, sql3, NULL, &tonamefd, 1, 0);
+        printf("%d\n", tonamefd);
+        m.cmd = CHATSUCCESS;
+        TcpServerSend(tonamefd, &m, sizeof(m));
+      }
+
+  }
+
+  return ret;
+}
+
 void* clientHandler(void *arg)
 {
    int clientfd =* ((int*) arg);
@@ -386,58 +465,69 @@ void* clientHandler(void *arg)
                 //查询在线链表 私聊的对象在不在线 ,在线的情况下看是不是私聊的对象正好处在私聊界面
                 //如果处在，则把消息直接发送过去，并保存记录，如果不处在, 则保存聊天记录直到私聊对象处在那个界面
                 //再打印消息，如果离线，则保存聊天记录直到上线处在私聊界面
-                char sql3[SQLSIZE] = {0};
-                sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
-                //查询在线链表
-                pthread_mutex_lock(&loginmutex);
-                int ret = searchIsExist(d, sql3);
-                pthread_mutex_unlock(&loginmutex);
-                if(ret == 0)    //不在线发不过去
-                {
-                  m.cmd = CHATFAIL;
-                  memset(m.content, 0, sizeof(m.content));
-                  strcpy(m.content, "发送失败,你要私聊的对象不在线!");
-                  TcpServerSend(clientfd, &m, sizeof(m));
-                }
-                else //在线， 可以发过去
-                {
-                  //获取私聊对象的套接字
-                  int tonamefd = 0;
-                  memset(sql3, 0, sizeof(sql3));
-                  sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
-                  //这里要不要加锁?
-                  GetTableVal(d, sql3, NULL, &tonamefd, 1);
-                  printf("%d\n", tonamefd);
-                  m.cmd = CHATSUCCESS;
-                  TcpServerSend(tonamefd, &m, sizeof(m));
-                }
-
-                // l = FindByElement(&ClientList,m.toName,IsNameSame);
-                // if(l.len == 0)
-                // {
-                //     printf("没找到要发送给的用户%s,转发失败！\n",m.toName);
-                //     break;
-                // }
-                // struct Node *n = l.head->next;
-                // while(n != NULL)
-                // {
-                //     CInfo *info  =(CInfo*)n->value;
-                //     TcpServerSend(info->sock,&m,sizeof(m));
-                //     printf("给%s发消息:%s\n",m.toName,m.content);
-                //     n = n->next;
-                // }
+                
+                chatfriend(clientfd, m, Name);
                 break;
                 // FreeDLlist(&l,NULL);
             case ALLCHAT:
-                  n2 = ClientList.head->next;
-                  while(n2 != NULL)   
-                  {
-                    CInfo *info = (CInfo*)n2->value;
-                    if(strcmp(info->Name,m.fromName) != 0)
-                                  TcpServerSend(info->sock,&m,sizeof(m));
-                    printf("给所有人发消息:%s\n",m.content);
-                    n2 = n2->next;
-                  } 
+                //先去查有没有这个群
+                char sql3[BUFFER_SZIE + USERNAMESIZE] = {0};
+                sprintf(sql3, "select * from Queue where groupname = '%s';", m.toName);
+                ret = searchIsExist(d, sql3);
+                if(ret == 0) //不存在这个群  进入群聊失败
+                {
+                  m.cmd = ALLCHATFAIL; //群聊失败
+                  memset(m.content, 0, sizeof(m.content));
+                  strcpy(m.content, "进入群聊失败, 你要进入的群聊不存在!");
+                  TcpServerSend(clientfd, &m, sizeof(m));
+                }
+                else  //存在这个群，看自己在不在这个群里
+                {
+                    memset(sql3, 0, sizeof(sql3));
+                    sprintf(sql3, "select * from %s where name = '%s';", m.toName, Name);
+                    ret = searchIsExist(d, sql3);
+                    if(ret == 0)  //自己不在这个群, 群聊失败
+                    {
+                      m.cmd = ALLCHATFAIL;  //群聊失败
+                      memset(m.content, 0, sizeof(m.content));
+                      strcpy(m.content, "你并不属于要进入的群聊里,进入群聊最终失败!");
+                      TcpServerSend(clientfd, &m, sizeof(m));
+                    }
+                    else  //在这个群里 群聊成功
+                    {
+                      m.cmd = ALLCHATSUCCESS; 
+                      char ptr[DEFAULT_SIZE] = {0};
+
+                      //查看群里在线的用户，每个用户都发一遍 除了自己
+                      memset(sql3, 0, sizeof(sql3));
+                      
+                      sprintf(sql3, "select name from %s where name <> '%s';", m.toName, Name);
+                      int row = GetTableVal(d, sql3, ptr, NULL, 0, 1);
+                      pthread_mutex_lock(&loginmutex);
+                      for(int idx = 1; idx <=row; idx++)
+                      {
+                        memset(sql3, 0, sizeof(sql3));
+                        sprintf(sql3, "select name from %s where name <> '%s';", m.toName, Name);
+                        //获取的是群内成员除自己外的每一个名字
+                        GetTableVal(d, sql3, ptr, NULL, 0, idx);
+                        memset(sql3, 0, sizeof(sql3));
+                        sprintf(sql3, "select Username from LoginClient where Username = '%s';", ptr);
+                        if(searchIsExist(d, sql3) > 0) //群成员在线
+                        {
+                          //获取套接字  
+                          memset(sql3, 0, sizeof(sql3));
+                          sprintf(sql3, "select * from LoginClient where Username = '%s';", ptr);
+                          int val = 0;
+                          GetTableVal(d, sql3, NULL, &val, 1, 0);
+                          TcpServerSend(val, &m, sizeof(m));
+                        }
+                      }
+                      pthread_mutex_unlock(&loginmutex);
+                      memset(sql3, 0, sizeof(sql3));
+                      sprintf(sql3, "insert into Log values('%s', '%s', '%s');", Name, m.content, m.toName);
+                      SqliteExec(d, sql3);
+                    }
+                }
                     break;
             case ADDFRIEND:
                 char friendname[FRIENDNAMESIZE] = {0};
@@ -446,7 +536,7 @@ void* clientHandler(void *arg)
                 memset(sql2, 0, sizeof(sql2));
                 char name[FRIENDNAMESIZE] = {0};
                 sprintf(sql2,"select * from LoginClient where Clientfd = %d;", clientfd);
-                GetTableVal(d, sql2, name, NULL, 0);
+                GetTableVal(d, sql2, name, NULL, 0, 0);
                 memset(sql2, 0, sizeof(sql2));
                 sprintf(sql2,"select * from %s where name = '%s';", name, friendname);
                 printf("%s\n", sql2);
@@ -491,6 +581,12 @@ void* clientHandler(void *arg)
               
                 deletefriend(clientfd, m);
                 break;
+            case HEART:
+                // if(!m.content == "")
+                // {
+                //   close(cfd);
+                // }
+                 
             case BUILDGROUP:
                 // char groupname[GROUPNAMESIZE + BUFFER_SZIE];
                 // memset(groupname, 0, sizeof(groupname));
@@ -670,6 +766,48 @@ void* clientHandler(void *arg)
    close(clientfd);
 }
 
+void clientHander2(void *arg)
+{
+      // /*数据库遍历cfd
+      // ...
+      // */
+      // Msg m;
+      // memset(&m, 0, sizeof(m));
+
+      // char sql[SQLSIZE];
+      // memset(sql, 0, sizeof(sql));
+
+      // pthread_mutex_lock(&loginmutex);
+
+      // strcpy(sql, "select Clientfd from LoginClient");
+      
+      // int fd = 0;
+      // //获取循环的次数
+      // int row = GetTableVal(d, sql, NULL, NULL, 0, 0);
+      // for(int idx = 1; idx <= row; idx++)
+      // {
+      //   //获取登录在线表里的套接字
+      //   GetTablefd(d, sql, &fd, idx);
+      //   m.cmd = HEART;
+      //   strcpy(m.content, "SYN");
+      //   TcpServerSend(fd, &m, sizeof(m));
+      // }
+
+      // pth
+
+      
+
+     /*消息类型和消息内容进行填充
+      Msg.cmd = HEART;
+      strcpy(Msg.content,"alive");
+     */
+     
+      /*
+        send();
+ 
+      */
+    }   
+
 void InitDB()
 {
 
@@ -705,6 +843,7 @@ int main()
                    break;
         
         AddpoolTask(p,clientHandler,&clientfd);
+        AddpoolTask(p, clientHander2, &clientfd);
         
     }
 

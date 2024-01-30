@@ -6,6 +6,7 @@
 #include "GlobalMessage.h"
 #include "DoubleLinkList.h"
 #include <string.h>
+#include <errno.h>
 #include <unistd.h>
 #include <stdlib.h>
 #define ip "127.0.0.1"
@@ -19,7 +20,7 @@ enum STATUS_CODE
 
 void printChatroom() // 打印登录成功后的功能页面
 {
-    printf("\033[0;35m*********************大壮聊天室**********************\033[m\n");
+    printf("\033[0;35m*********************网络聊天室**********************\033[m\n");
     printf("\033[0;35m|                                                   |\033[m\n");
     printf("\033[0;35m|                                                   |\033[m\n");
     printf("\033[0;35m|                                                   |\033[m\n");
@@ -39,11 +40,20 @@ void printCHAT()
 {
     system("clear");
     printf("\033[0;35m*********************私聊聊天室***********************\033[m\n");
-    printf("\033[0;35m|                                                   |\033[m\n");
-    printf("\033[0;35m|                                                   |\033[m\n");
-    printf("\033[0;35m|                                                   |\033[m\n");
-    printf("\033[0;34m|                                                   |\033[m\n");
+    // printf("\033[0;35m|                                                   |\033[m\n");
+    // printf("\033[0;35m|                                                   |\033[m\n");
+    // printf("\033[0;35m|                                                   |\033[m\n");
+    // printf("\033[0;34m|                                                   |\033[m\n");
     printf("\033[0;35m|                                输入q! : 退出私聊页面|\033[m\n");
+    printf("\033[0;35m|                                输入w! : 传文件     |\033[m\n");
+}
+
+//打印群聊聊天室
+void printAllChat()
+{
+     system("clear");
+    printf("\033[0;35m*********************群聊聊天室***********************\033[m\n");
+    printf("\033[0;35m|                                输入q! : 退出群聊页面|\033[m\n");
     printf("\033[0;35m|                                输入w! : 传文件     |\033[m\n");
 }
 
@@ -217,7 +227,6 @@ void SendMessage(TcpC *c, Msg m)
         switch (choice)
         {
         case CHAT:
-            
             printf("请输入你要私聊的用户:");
             memset(m.toName, 0, sizeof(m.toName));
             scanf("%s", m.toName);
@@ -227,6 +236,7 @@ void SendMessage(TcpC *c, Msg m)
             while(1)
             {
                m.cmd = CHAT;
+               
                memset(m.content, 0, sizeof(m.content));
                scanf("%s", m.content);
                while(getchar() != '\n'); 
@@ -252,18 +262,37 @@ void SendMessage(TcpC *c, Msg m)
 
             break;
         case ALLCHAT:
-            m.cmd = ALLCHAT;
-            memset(m.content, 0, sizeof(m.content));
-            printf("请输入你要发送的消息：");
-            scanf("%s", m.content);
-            while (getchar() != '\n')
-                ;
-            if (TcpClientSend(c, &m, sizeof(m)) == false)
+            printf("请输入你要进入的群聊名称:");
+            memset(m.toName, 0, sizeof(m.toName));
+            scanf("%s", m.toName);
+            while(getchar() != '\n');
+            printAllChat();
+            while(1)
             {
-                perror("send");
-                return;
+                m.cmd = ALLCHAT;
+               
+               memset(m.content, 0, sizeof(m.content));
+               scanf("%s", m.content);
+               while(getchar() != '\n'); 
+               if(strcmp(m.content, "w!") == 0)
+               {
+                 /*
+                 to do.........
+                 */
+               }
+               else if(strcmp(m.content, "q!") == 0)
+               {
+                   break;
+               }
+               else
+               {
+                    if(TcpClientSend(c,&m,sizeof(m)) == false)
+                    {
+                        perror("send");
+                        return;
+                    }
+               }
             }
-            break;
         case ADDFRIEND:
             m.cmd = ADDFRIEND;
             TcpClientSend(c, &m, sizeof(m));
@@ -321,9 +350,36 @@ void *RecvMessage(void *arg)
                        printf("%s\n", m.content);
                        break;
             case CHATFAIL:
+                    //    char ptr[BUFFER_SZIE] = {0};
+                    //     while(1)
+                    //     {
+                    //         memset(ptr, 0, sizeof(ptr));
+                    //         if(errno == EAGAIN)
+                    //         {
+                    //         break;
+                    //         }
+                    //         TcpClientRecv(c, ptr, sizeof(ptr));
+                    //         printf("%s\n", ptr);
+                    //     }
                        printf("%s\n", m.content);
                        break;
             case CHATSUCCESS:
+                    //    char ptr1[BUFFER_SZIE] = {0};
+                    //    while(1)
+                    //    {
+                    //       if(errno == EAGAIN)
+                    //       {
+                    //         break;
+                    //       }
+                    //       TcpClientRecv(c, ptr1, sizeof(ptr1));
+                    //       printf("%s\n", ptr1);
+                    //    }
+                       printf("%s\n", m.content);
+                       break;
+            case ALLCHATFAIL:
+                       printf("%s\n", m.content);
+                       break;
+            case ALLCHATSUCCESS:
                        printf("%s\n", m.content);
                        break;
             case BUILDGROUPFAIL:
@@ -438,6 +494,19 @@ int login_signup(TcpC *c, Msg m)
     }
 }
 
+void send_heart(void *arg)
+{
+    TcpC *c = (TcpC *)arg;
+
+    //心跳检测
+    while(1)
+    {
+        char* buf = "I am alive";
+        TcpClientSend(c, buf, sizeof(buf));
+        sleep(3);
+    }
+}
+
 int main()
 {
     TcpC *c = InitTcpClient(ip, port);
@@ -451,11 +520,16 @@ int main()
 
     Thread *t = InitThread(RecvMessage, c);
     ThreadDetach(t);
+
+    Thread *t1 = InitThread(send_heart,c);
+    ThreadDetach(t1);
+
     SendMessage(c, m);
 
-    while (1)
-        ;
+
+    while(1);
     free(t);
+    free(t1);
     ClearTcpClient(c);
     return 0;
 }
