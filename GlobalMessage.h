@@ -26,7 +26,10 @@ enum CMD
     QUITGROUPSUCCESS, //退群成功
     CHATFAIL, //私聊失败
     CHATSUCCESS, //私聊成功
+    ALLCHATFAIL, //群聊失败
+    ALLCHATSUCCESS, //群聊成功
     fileReady,//准备发文件
+    HEART, 
     fileagree,//同意
     filerefuse,//拒绝
     fileStart,  //开始发文件
@@ -37,6 +40,7 @@ enum CMD
 struct Message
 {
     int cmd;
+    
     char fromName[DEFAULT_SIZE];//消息来源对象
     char password[DEFAULT_SIZE];  //密码
     char toName[DEFAULT_SIZE];//消息接收对象
