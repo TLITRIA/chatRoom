@@ -63,13 +63,13 @@ typedef struct Message Msg;
 // typedef struct client Client;
 struct ClientInfo // 用来存放已登录的用户
 {
-    char Name[20]; // 客户端用户名
+    char Name[DEFAULT_SIZE]; // 客户端用户名
     int sock;      // 登录主机的套接字
 };
 struct ClientSignup //  用来存放已注册的用户
 {
     char name[50];
-    char password[20];
+    char password[DEFAULT_SIZE];
 };
 struct Root // 用来存放管理者名单
 {

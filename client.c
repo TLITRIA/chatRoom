@@ -161,7 +161,7 @@ int quitgroup(TcpC *c, Msg m)
 
 // DLlist friendlist;
 void SendMessage(TcpC *c, Msg m)
-{
+{       
     int choice = 0;
     while (1)
     {
@@ -244,6 +244,7 @@ void SendMessage(TcpC *c, Msg m)
                     }
                }
             }
+            break;
         case ADDFRIEND:
             m.cmd = ADDFRIEND;
             TcpClientSend(c, &m, sizeof(m));
@@ -472,15 +473,15 @@ int main()
     Thread *t = InitThread(RecvMessage, c);
     ThreadDetach(t);
 
-    Thread *t1 = InitThread(send_heart,c);
-    ThreadDetach(t1);
+    // Thread *t1 = InitThread(send_heart,c);
+    // ThreadDetach(t1);
 
     SendMessage(c, m);
 
 
     while(1);
     free(t);
-    free(t1);
+    // free(t1);
     ClearTcpClient(c);
     return 0;
 }

@@ -47,6 +47,14 @@ int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2)
     return strncmp(num1->name, num2->name, strlen(num1->name) < strlen(num2->name) ? strlen(num1->name) : strlen(num2->name));
 }
 
+int printFunc(ELEMENTTYPE val)
+{
+    int ret = 0;
+    onLline *num = (onLline *)val;
+    printf("在线name:%s  fd:%d\n", num->name, num->sockfd);
+    return ret;
+}
+
 //删除好友
 int deletefriend(int clientfd, Msg m, const char * Name)
 {
@@ -57,14 +65,9 @@ int deletefriend(int clientfd, Msg m, const char * Name)
   memset(sql2, 0, sizeof(sql2));
   //从在线链表中获取结果集
   char name[FRIENDNAMESIZE] = {0};
-<<<<<<< HEAD
-  sprintf(sql2,"select * from LoginClient where Clientfd = %d;", clientfd);
-  GetTableVal(d, sql2, name, NULL, 0, 0);
-=======
   // sprintf(sql2,"select * from LoginClient where Clientfd = %d;", clientfd);
   // GetTableVal(d, sql2, name, NULL, 0);
   strncpy(name, Name, strlen(Name));
->>>>>>> FYD
 
   memset(sql2, 0, sizeof(sql2));
   sprintf(sql2, "select * from %s where name = '%s';", name, friendname);
@@ -310,7 +313,7 @@ int chatfriend(int clientfd, Msg m, const char *Name)
   // }
   //先查一遍是不是自己的好友,再看是不是在线
   sprintf(sql3, "select * from %s where name = '%s' and flag = %d;", Name, m.toName, 1);
-  ret = searchIsExist(d, sql3); 
+  ret = searchIsExist(d, sql3);
   if(ret == 0) //不是自己的好友， 私聊失败
   {
       
@@ -321,11 +324,15 @@ int chatfriend(int clientfd, Msg m, const char *Name)
   } 
   else    //是好友，查看是否在线
   {
-      memset(sql3, 0, sizeof(sql3));
-      sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
-      //查询在线链表
+      // memset(sql3, 0, sizeof(sql3));
+      // sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
+      // //查询在线链表
       pthread_mutex_lock(&loginmutex);
-      int ret = searchIsExist(d, sql3);
+      // int ret = searchIsExist(d, sql3);
+      onLline info2;
+      strncpy(info2.name, m.toName, sizeof(m.toName) - 1);
+      info2.sockfd = -1;
+      ret = onLineIsContainVal(PonLine, (void *)&info2);
       pthread_mutex_unlock(&loginmutex);
       if(ret == 0)    //不在线发不过去
       {
@@ -356,10 +363,15 @@ int chatfriend(int clientfd, Msg m, const char *Name)
         memset(sql3, 0 , sizeof(sql3));
         sprintf(sql3, "insert into Log values('%s', '%s', '%s');", Name, m.content, m.toName);
         SqliteExec(d, sql3);
-        memset(sql3, 0, sizeof(sql3));
-        sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
-        //这里要不要加锁?
-        GetTableVal(d, sql3, NULL, &tonamefd, 1, 0);
+        // memset(sql3, 0, sizeof(sql3));
+        // sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
+        // //这里要不要加锁?
+        // GetTableVal(d, sql3, NULL, &tonamefd, 1, 0);
+        onLline info2;
+        strncpy(info2.name, m.toName, sizeof(m.toName) - 1);
+        info2.sockfd = -1;
+        onLineObtainValVal(PonLine,(void *)&info2, &tonamefd, obtainFunc);
+
         printf("%d\n", tonamefd);
         m.cmd = CHATSUCCESS;
         TcpServerSend(tonamefd, &m, sizeof(m));
@@ -375,17 +387,19 @@ void* clientHandler(void *arg)
    int clientfd =* ((int*) arg);
    int tmp = clientfd;
    char Name[DEFAULT_SIZE] = {0};
+   onLline info;
    while(1)
   {
 
     Msg m;
-    onLline info;
+    
     if (TcpServerRecv(clientfd, &m, sizeof(m)) == false)
     {
       // char sql[SQLSIZE] = {0};
       // sprintf(sql, "delete from LoginClient where Clientfd = %d;", tmp);
       // SqliteExec(d, sql);    
       onLineRemove(PonLine, (void *)&info);
+      onPrintf(PonLine, printFunc);
       break;
     }
     CInfo *c;
@@ -419,7 +433,6 @@ void* clientHandler(void *arg)
                     // sprintf(sql, "select * from LoginClient where Username = '%s';", m.fromName);
                     strncpy(info.name, m.fromName, sizeof(m.fromName) - 1);
                     info.sockfd = clientfd;
-                    printf("s:%s  b:%d\n", info.name, info.sockfd);
                     
                     ret = onLineIsContainVal(PonLine, (void *)&info);
                     if(ret == 0)
@@ -429,6 +442,7 @@ void* clientHandler(void *arg)
                       {
                          //记录客户端姓名
                          strcpy(Name, m.fromName);
+                         onPrintf(PonLine, printFunc);
 
                          flag = 1;  //用户成功登录标志位
                          TcpServerSend(clientfd, &flag, sizeof(flag));
@@ -499,55 +513,8 @@ void* clientHandler(void *arg)
                 //查询在线链表 私聊的对象在不在线 ,在线的情况下看是不是私聊的对象正好处在私聊界面
                 //如果处在，则把消息直接发送过去，并保存记录，如果不处在, 则保存聊天记录直到私聊对象处在那个界面
                 //再打印消息，如果离线，则保存聊天记录直到上线处在私聊界面
-<<<<<<< HEAD
                 
                 chatfriend(clientfd, m, Name);
-=======
-                char sql3[SQLSIZE] = {0};
-                //sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
-                onLline info1;
-                strncpy(info1.name, m.fromName, sizeof(m.fromName) - 1);
-                info1.sockfd = -1;
-                //查询在线链表
-                pthread_mutex_lock(&loginmutex);
-                int ret = onLineIsContainVal(PonLine, (void *)&info1);
-                pthread_mutex_unlock(&loginmutex);
-                if(ret == 0)    //不在线发不过去
-                {
-                  m.cmd = CHATFAIL;
-                  memset(m.content, 0, sizeof(m.content));
-                  strcpy(m.content, "发送失败,你要私聊的对象不在线!");
-                  TcpServerSend(clientfd, &m, sizeof(m));
-                }
-                else //在线， 可以发过去
-                {
-                  //获取私聊对象的套接字
-                  int tonamefd = 0;
-                  // memset(sql3, 0, sizeof(sql3));
-                  // sprintf(sql3, "select * from LoginClient where Username = '%s';", m.toName);
-                  onLineObtainValVal(PonLine, (void *)&info1, &tonamefd, obtainFunc);
-                  //这里要不要加锁?
-                  GetTableVal(d, sql3, NULL, &tonamefd, 1);
-                  printf("%d\n", tonamefd);
-                  m.cmd = CHATSUCCESS;
-                  TcpServerSend(tonamefd, &m, sizeof(m));
-                }
-
-                // l = FindByElement(&ClientList,m.toName,IsNameSame);
-                // if(l.len == 0)
-                // {
-                //     printf("没找到要发送给的用户%s,转发失败！\n",m.toName);
-                //     break;
-                // }
-                // struct Node *n = l.head->next;
-                // while(n != NULL)
-                // {
-                //     CInfo *info  =(CInfo*)n->value;
-                //     TcpServerSend(info->sock,&m,sizeof(m));
-                //     printf("给%s发消息:%s\n",m.toName,m.content);
-                //     n = n->next;
-                // }
->>>>>>> FYD
                 break;
                 // FreeDLlist(&l,NULL);
             case ALLCHAT:
@@ -585,21 +552,30 @@ void* clientHandler(void *arg)
                       sprintf(sql3, "select name from %s where name <> '%s';", m.toName, Name);
                       int row = GetTableVal(d, sql3, ptr, NULL, 0, 1);
                       pthread_mutex_lock(&loginmutex);
+
                       for(int idx = 1; idx <=row; idx++)
                       {
+                        onLline infofd;
                         memset(sql3, 0, sizeof(sql3));
                         sprintf(sql3, "select name from %s where name <> '%s';", m.toName, Name);
                         //获取的是群内成员除自己外的每一个名字
                         GetTableVal(d, sql3, ptr, NULL, 0, idx);
-                        memset(sql3, 0, sizeof(sql3));
-                        sprintf(sql3, "select Username from LoginClient where Username = '%s';", ptr);
-                        if(searchIsExist(d, sql3) > 0) //群成员在线
+                        // memset(sql3, 0, sizeof(sql3));
+                        // sprintf(sql3, "select Username from LoginClient where Username = '%s';", ptr);
+                      
+                        strncpy(infofd.name, ptr, sizeof(ptr) - 1);
+                        infofd.sockfd = -6;                   
+
+                        if(onLineIsContainVal(PonLine, (void *)&infofd)) //群成员在线
                         {
                           //获取套接字  
-                          memset(sql3, 0, sizeof(sql3));
-                          sprintf(sql3, "select * from LoginClient where Username = '%s';", ptr);
+                          // memset(sql3, 0, sizeof(sql3));
+                          // sprintf(sql3, "select * from LoginClient where Username = '%s';", ptr);
                           int val = 0;
-                          GetTableVal(d, sql3, NULL, &val, 1, 0);
+                          onLineObtainValVal(PonLine, (void *)&infofd, &val, obtainFunc);
+
+                          // printf("name:%s val:%d\n", info2.name, val);
+                          // GetTableVal(d, sql3, NULL, &val, 1, 0);
                           TcpServerSend(val, &m, sizeof(m));
                         }
                       }
@@ -616,14 +592,9 @@ void* clientHandler(void *arg)
                 char sql2[SQLSIZE];
                 memset(sql2, 0, sizeof(sql2));
                 char name[FRIENDNAMESIZE] = {0};
-<<<<<<< HEAD
-                sprintf(sql2,"select * from LoginClient where Clientfd = %d;", clientfd);
-                GetTableVal(d, sql2, name, NULL, 0, 0);
-=======
                 // sprintf(sql2,"select * from LoginClient where Clientfd = %d;", clientfd);
                 // GetTableVal(d, sql2, name, NULL, 0);
                 strncpy(name, Name, strlen(Name));
->>>>>>> FYD
                 memset(sql2, 0, sizeof(sql2));
                 sprintf(sql2,"select * from %s where name = '%s';", name, friendname);
                 printf("name=%s\n", name);
@@ -645,9 +616,7 @@ void* clientHandler(void *arg)
                   onLline info2;
                   strncpy(info2.name, friendname, sizeof(friendname) - 1);
                   info2.sockfd = -1;
-                  printf("info.name%s  info.fd%d\n", info2.name, info2.sockfd);
                   ret = onLineIsContainVal(PonLine, (void *)&info2);
-                  printf("qret%d\n", ret);
 
                   if(ret == 0)  //不在线
                   {
@@ -940,7 +909,7 @@ int main()
                    break;
         
         AddpoolTask(p,clientHandler,&clientfd);
-        AddpoolTask(p, clientHander2, &clientfd);
+        // AddpoolTask(p, clientHander2, &clientfd);
         
     }
 

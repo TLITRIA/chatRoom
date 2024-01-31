@@ -39,6 +39,10 @@ int onLineRemove(onLineOutside *PonLine, ELEMENTTYPE val)
 int onLineIsContainVal(onLineOutside *PonLine, ELEMENTTYPE val)
 {
     int ret = balanceBinarySearchTreeIsContainVal(PonLine, val);
+    if (ret)
+    {
+        printf("在线\n");
+    }
     return ret;
 }
 
@@ -47,6 +51,13 @@ int onLineObtainValVal(onLineOutside *PonLine, ELEMENTTYPE val, int *sockfd, int
 {
     int ret = balanceBinarySearchTreeIsContainValVal(PonLine, val, sockfd, obtainFunc);
     return ret;
+}
+
+/* 遍历*/
+int onPrintf(onLineOutside *PonLine, int (*printFunc)(void *))
+{
+    balanceBinarySearchTreeInOrderTravel(PonLine, printFunc);
+    return 1;
 }
 
 /* 销毁表*/
