@@ -26,9 +26,7 @@ int onLineInsert(onLineOutside *PonLine, ELEMENTTYPE val)
 /* 人员下线*/
 int onLineRemove(onLineOutside *PonLine, ELEMENTTYPE val)
 {
-    printf("tree->root if null:%d\n", (int)(PonLine->root == NULL));
     int ret = balanceBinarySearchTreeRemove(PonLine, val);
-    printf("ret:%d\n", ret);
     if (ret)
     {
         printf("客户下线\n");

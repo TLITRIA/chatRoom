@@ -627,7 +627,6 @@ static AVLTreeNode * accordElementGetAppointNode(BalanceBinarySearchTree *pBSTre
     while (travelNode != NULL)
     {
         cmp = pBSTree->compareFunc(val, travelNode->val);
-        printf("cmp%d\n", cmp);
         if (cmp == 0)
         {
             return travelNode;
