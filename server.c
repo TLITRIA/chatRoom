@@ -44,6 +44,7 @@ int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2)
     int ret = 0;
     onLline *num1 = (onLline *)val1;
     onLline *num2 = (onLline *)val2;
+    printf("num1%s num2%s\n", num1->name, num2->name);
     return strncmp(num1->name, num2->name, strlen(num1->name) < strlen(num2->name) ? strlen(num1->name) : strlen(num2->name));
 }
 
@@ -384,6 +385,7 @@ int chatfriend(int clientfd, Msg m, const char *Name)
 
 void* clientHandler(void *arg)
 {
+
    int clientfd =* ((int*) arg);
    int tmp = clientfd;
    char Name[DEFAULT_SIZE] = {0};
@@ -828,6 +830,7 @@ void* clientHandler(void *arg)
     
   }
    close(clientfd);
+  //  pthread_exit(NULL);
 }
 
 void clientHander2(void *arg)

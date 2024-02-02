@@ -7,11 +7,15 @@
 #include "DoubleLinkList.h"
 #include <string.h>
 #include <errno.h>
+#include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
 #define ip "127.0.0.1"
 #define port 8080
 #define FRIENDNAMESIZE 20
+
+TcpC *client = NULL;
+Thread *T = NULL;
 
 enum STATUS_CODE
 {
@@ -71,6 +75,7 @@ int chatroom() // 私聊
         }
     }
 }
+
 
 int addfriend(TcpC *c)
 {
@@ -459,6 +464,16 @@ void send_heart(void *arg)
     }
 }
 
+/* 捕捉信号*/
+void sigHandler(int sig)
+{
+    free(T);
+    ClearTcpClient(client);
+    printf("成功回收资源\n");
+    exit(-1);
+}
+
+
 int main()
 {
     TcpC *c = InitTcpClient(ip, port);
@@ -475,13 +490,21 @@ int main()
 
     // Thread *t1 = InitThread(send_heart,c);
     // ThreadDetach(t1);
+    /* 捕捉信号*/
+    client = c;
+    T = t;
+
+
+    signal(SIGINT, sigHandler);
+    signal(SIGTSTP, sigHandler);
+    signal(SIGQUIT, sigHandler);
+
 
     SendMessage(c, m);
 
 
     while(1);
     free(t);
-    // free(t1);
     ClearTcpClient(c);
     return 0;
 }

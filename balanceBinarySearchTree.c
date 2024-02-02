@@ -606,7 +606,7 @@ static int balanceBinarySearchTreeRemoveAppointNode(BalanceBinarySearchTree *pBS
 
     }
     /* 释放结点 : 指针全部变动完之后再操作. */
-    if (tmpNode != NULL)
+    if (tmpNode != NULL && pBSTree->size != 0)
     {
         free(tmpNode);
         tmpNode = NULL;
@@ -627,6 +627,7 @@ static AVLTreeNode * accordElementGetAppointNode(BalanceBinarySearchTree *pBSTre
     while (travelNode != NULL)
     {
         cmp = pBSTree->compareFunc(val, travelNode->val);
+        printf("cmp%d\n", cmp);
         if (cmp == 0)
         {
             return travelNode;
@@ -772,6 +773,10 @@ static void balanceBinarySearchTreeInOrder(AVLTreeNode *node, int (*printFunc)(v
 int balanceBinarySearchTreeInOrderTravel(BalanceBinarySearchTree *pBSTree, int (*printFunc)(void *))
 {
     int ret = 0;
+    if (pBSTree->size == 0)
+    {
+        return ret;
+    }
     balanceBinarySearchTreeInOrder(pBSTree->root, printFunc);
     return ret;
 }

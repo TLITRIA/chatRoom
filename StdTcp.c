@@ -37,8 +37,17 @@ TcpS *InitTcpServer(const char *ip, const unsigned short port)
         return NULL;
     }
     // 1代表启用端口复用，0代表禁用端口复用
-    int opt = 1;
-    setsockopt(s->sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(int));
+    /* 设置端口复用*/
+    int enableOpt = 1;
+    int ret = setsockopt(s->sock, SOL_SOCKET, SO_REUSEADDR, (void *)&enableOpt, sizeof(enableOpt));
+    if (ret == -1)
+    {
+        perror("setsockopt error");
+        exit(-1);
+    }
+
+    // int opt = 1;
+    // setsockopt(s->sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(int));
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(port);
