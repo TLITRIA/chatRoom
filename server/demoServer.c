@@ -4,7 +4,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <unistd.h>
-
+#include <sqlite3.h>
 /* C\S共有的，要不要分？ */
 #include "StdTcp.h"
 #include "StdThread.h"
@@ -610,6 +610,87 @@ int addFriend(int clientfd, Msg m, const char *Name)
 
 }
 
+int newFriends(int clientfd, Msg m, const char *Name)
+{
+  char sql[SQLSIZE];
+  memset(sql, 0, sizeof(sql));
+  char **result = NULL;
+  int row = 0;
+  int column = 0;
+  char * errormsg = NULL;
+  
+  sprintf(sql,"select * from newFriends where to_name = '%s';", Name);
+  int ret = sqlite3_get_table(d, sql, &result, &row, &column, &errormsg);
+  if (ret != SQLITE_OK)
+  {
+        printf("sqlite3_get_table error:%s\n", errormsg);
+        exit(-1);
+  }
+  for (int idx = 0; idx < row; idx++)
+  {
+    printf("%s\n", result[idx][0]);
+    memset(m.content, 0, sizeof(m.fromName));
+    strcpy(m.content, result[idx][0]);
+    TcpServerSend(clientfd, &m, sizeof(m));
+  }
+
+  return 0;
+}
+
+int agreeWith(Msg m, const char *Name)
+{
+  char sql[SQLSIZE];
+  memset(sql, 0, sizeof(sql));
+
+  int status = 1;  //表示是好友
+  sprintf(sql,"insert into %s values('%s', %d);", Name, m.toName, status);
+  if(SqliteExec(d,sql) == true)
+  {
+      memset(sql, 0, sizeof(sql));
+      sprintf(sql,"insert into %s values('%s', %d);", m.toName, Name, status);
+      SqliteExec(d, sql);  //互加好友
+  }
+  onLline infofd;
+  strcpy(infofd.name, m.toName);
+  infofd.sockfd = 0;
+  if(onLineIsContainVal(PonLine, (void *)&infofd)) //群成员在线
+  {
+    //获取套接字  
+    // memset(sql3, 0, sizeof(sql3));
+    // sprintf(sql3, "select * from LoginClient where Username = '%s';", ptr);
+    int val = 0;
+    onLineObtainValVal(PonLine, (void *)&infofd, &val, obtainFunc);
+    memset(&m, 0, sizeof(m));
+    m.cmd = ADDFRIENDFAIL;
+    strcpy(m.fromName, Name);
+    strcpy(m.content, "同意加好友");
+    TcpServerSend(val, &m, sizeof(m));
+  }
+  return 0;
+}
+
+int refuse(Msg m, const char *Name)
+{
+  onLline infofd;
+  strcpy(infofd.name, m.toName);
+  infofd.sockfd = 0;
+  if(onLineIsContainVal(PonLine, (void *)&infofd)) //群成员在线
+  {
+    //获取套接字  
+    // memset(sql3, 0, sizeof(sql3));
+    // sprintf(sql3, "select * from LoginClient where Username = '%s';", ptr);
+    int val = 0;
+    onLineObtainValVal(PonLine, (void *)&infofd, &val, obtainFunc);
+    memset(&m, 0, sizeof(m));
+    m.cmd = ADDFRIENDFAIL;
+    strcpy(m.fromName, Name);
+    strcpy(m.content, "拒绝加好友");
+    TcpServerSend(val, &m, sizeof(m));
+  }
+  return 0;
+}
+
+
 /* 私聊*/
 int chatfriend(int clientfd, Msg m, const char *Name)
 {
@@ -712,6 +793,15 @@ void* clientHandler(void *arg)
             case QUITGROUP:
                 quitGroup(clientfd, m, Name);
                 break;
+            case NEWFRIENDS:
+                newFriends(clientfd, m, Name);
+                break;
+            case FILEAGREE:
+
+                break;
+            case FILEREFUSE:
+              
+                break;
                default:
                    break;
         }
@@ -730,6 +820,7 @@ void InitDB()
    SqliteExec(d,"create table if not exists LoginClient(Username text, Clientfd integer);");
    SqliteExec(d, "create table if not exists Log(from_name text, log_data text, to_name text);");
    SqliteExec(d, "create table if not exists Queue(groupname text);");
+   SqliteExec(d,"create table if not exists newFriends(Username text, to_name text);");
 //    SqliteExec(d,"create table if not exists RootClient(Username text);");
 //    SqliteExec(d,"create table if not exists VipClient(Username text);");
 }

@@ -151,6 +151,72 @@ void printAllChat()
     printf("\033[0;35m|                                输入w! : 传文件     |\033[m\n");
 }
 
+void printfNewFriend() // 打印登录成功后的功能页面
+{
+    printf("\033[0;35m*************************新朋友**********************\033[m\n");
+    printf("\033[0;35m|                                                   |\033[m\n");
+    printf("\033[0;35m|          1.同意                  2.拒绝            |\033[m\n");
+    printf("\033[0;35m|                                                   |\033[m\n");
+    printf("\033[0;35m|                                 3.退出页面         |\033[m\n");
+    printf("\033[0;35m|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\033[m\n");
+}
+
+/* 新朋友*/
+int newfriends(TcpC *c, Msg m)
+{
+    printfNewFriend();
+    m.cmd = NEWFRIENDS;
+    if(TcpClientSend(c,&m,sizeof(m)) == false)
+    {
+        perror("send");
+        return;
+    }
+    sleep(1);
+    int ret = 0;
+    while (1)
+    {
+        printf("请选择:");
+        memset(m.toName, 0, sizeof(m.toName));
+        scanf("%d", ret);
+        while (getchar() != '\n');
+        if (ret == LOGIN)
+        {
+            m.cmd = FILEAGREE;
+            printf("请输入要同意的名字:");
+            scanf("%s", m.toName);
+            while (getchar() != '\n');
+            if(TcpClientSend(c,&m,sizeof(m)) == false)
+            {
+                perror("send");
+                return;
+            }
+        }
+        else if (ret == SIGNUP)
+        {
+            m.cmd = FILEREFUSE;
+            printf("请输入要拒绝的名字:");
+            scanf("%s", m.toName);
+            while (getchar() != '\n');
+            if(TcpClientSend(c,&m,sizeof(m)) == false)
+            {
+                perror("send");
+                return;
+            }
+        }
+        else if (ret == CHAT)
+        {
+            break;
+        }
+        else
+        {
+            printf("输入错误请重新输入!\n");
+        }
+      
+    }
+    return ret;
+
+}
+
 int chatroom() // 私聊
 {
     int choice = 0;
@@ -388,7 +454,7 @@ void *RecvMessage(void *arg)
                        printf("添加好友成功!\n");
                        break;
             case ADDFRIENDFAIL:
-                       printf("%s\n", m.content);
+                       printf("%s:%s\n", m.fromName, m.content);
                        break;
             case DELETEFRIENDSUCCESS:
                        printf("删除好友成功!\n");
@@ -447,6 +513,8 @@ void *RecvMessage(void *arg)
             case QUITGROUPSUCCESS:
                        printf("退群成功!\n");
                        break;
+            case NEWFRIENDS:
+                        printf("%s:申请添加好友\n", m.content);
                 default:
                         break;
         }

@@ -397,30 +397,9 @@ void *RecvMessage(void *arg)
                        printf("%s\n", m.content);
                        break;
             case CHATFAIL:
-                    //    char ptr[BUFFER_SZIE] = {0};
-                    //     while(1)
-                    //     {
-                    //         memset(ptr, 0, sizeof(ptr));
-                    //         if(errno == EAGAIN)
-                    //         {
-                    //         break;
-                    //         }
-                    //         TcpClientRecv(c, ptr, sizeof(ptr));
-                    //         printf("%s\n", ptr);
-                    //     }
                        printf("%s\n", m.content);
                        break;
             case CHATSUCCESS:
-                    //    char ptr1[BUFFER_SZIE] = {0};
-                    //    while(1)
-                    //    {
-                    //       if(errno == EAGAIN)
-                    //       {
-                    //         break;
-                    //       }
-                    //       TcpClientRecv(c, ptr1, sizeof(ptr1));
-                    //       printf("%s\n", ptr1);
-                    //    }
                        printf("%s\n", m.content);
                        break;
             case ALLCHATFAIL:
@@ -447,6 +426,8 @@ void *RecvMessage(void *arg)
             case QUITGROUPSUCCESS:
                        printf("退群成功!\n");
                        break;
+            case NEWFRIENDS:
+                        printf("%s:申请添加为好友\n", m.content);
                 default:
                         break;
         }

@@ -14,6 +14,7 @@ enum CMD
     BUILDGROUP, //建群
     ADDGROUP,  //加群
     QUITGROUP, //退群
+    NEWFRIENDS, //新朋友
     ADDFRIENDFAIL, //加好友失败
     ADDFRIENDSUCCESS, //加好友成功
     DELETEFRIENDFAIL, //删除好友失败
@@ -30,8 +31,8 @@ enum CMD
     ALLCHATSUCCESS, //群聊成功
     fileReady,//准备发文件
     HEART, 
-    fileagree,//同意
-    filerefuse,//拒绝
+    FILEAGREE,//同意
+    FILEREFUSE,//拒绝
     fileStart,  //开始发文件
     filesending,//在发文件中
     fileend//文件发送结束
