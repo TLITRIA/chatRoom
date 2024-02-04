@@ -21,4 +21,25 @@ typedef struct DoubleLinkList
     int len;/* 链表长度*/
 }DoubleLinkList;
 
+
+
+/* ====函数返回码==== */
+enum RETURN_CODE
+{
+    NOT_FIND = -5,
+    INVILID_ACCESS,
+    NULL_PTR,
+    MALLOC_ERROR,
+    DEFAULT_ERROR = -1,
+    ON_SUCCESS,
+};
+
+/* ====宏函数==== */
+
+
+
+
+
+
+
 #endif

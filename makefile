@@ -1,12 +1,12 @@
 all:client server
 
 # 客户端程序
-client:client.o StdTcp.o StdThread.o GlobalMessage.o DoubleLinkList.o 
-	gcc client.o StdTcp.o StdThread.o GlobalMessage.o DoubleLinkList.o -o client -lsqlite3 -g
+client:client.o StdTcp.o StdThread.o GlobalMessage.o DoubleLinkList.o common.o
+	gcc client.o StdTcp.o StdThread.o GlobalMessage.o DoubleLinkList.o common.o -o client -lsqlite3 -g
 
 # 服务端程序
-server:server.o StdThread.o StdSqlite.o MyString.o StdThreadPool.o DoubleLinkList.o GlobalMessage.o StdTcp.o LinkQueue.o balanceBinarySearchTree.o doubleLinkList.o doubleLinkListQueue.o onLine.o
-	gcc server.o StdThread.o StdSqlite.o MyString.o StdThreadPool.o DoubleLinkList.o GlobalMessage.o StdTcp.o LinkQueue.o balanceBinarySearchTree.o doubleLinkList.o doubleLinkListQueue.o onLine.o -o server -lsqlite3 -g
+server:server.o StdThread.o StdSqlite.o MyString.o StdThreadPool.o DoubleLinkList.o GlobalMessage.o StdTcp.o LinkQueue.o balanceBinarySearchTree.o doubleLinkList.o doubleLinkListQueue.o onLine.o common.o
+	gcc server.o StdThread.o StdSqlite.o MyString.o StdThreadPool.o DoubleLinkList.o GlobalMessage.o StdTcp.o LinkQueue.o balanceBinarySearchTree.o doubleLinkList.o doubleLinkListQueue.o onLine.o common.o -o server -lsqlite3 -g
 
 server.o:server.c
 	gcc -c server.c -o server.o -g
@@ -50,6 +50,9 @@ doubleLinkListQueue.o:doubleLinkListQueue.c
 
 onLine.o:onLine.c
 	gcc -c onLine.c -o onLine.o -g
+
+common.o:common.c
+	gcc -c common.c -o common.o -g
 
 clean:
 	@rm -rf *.o client server
