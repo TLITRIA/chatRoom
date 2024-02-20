@@ -1,10 +1,12 @@
 OBJS = $(patsubst %.c, %.o, $(wildcard ./*.c))
-TARGET = server.out
+TARGET = client.out
+
+LDFALGS = -L../src_so
 
 LIBS=-ljson-c -lsqlite3 -lSoChatRoom
 
 $(TARGET):$(OBJS)
-	$(CC) -g $^ $(LIBS) -o $@ 
+	$(CC) -g $^ -o $@ $(LIBS)
 
 %.o:%.c
 	$(CC) -g -c $^ -o $@

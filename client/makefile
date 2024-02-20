@@ -1,19 +1,24 @@
-all:client objects
+OBJS = $(patsubst %.c, %.o, $(wildcard ./*.c))
+TARGET = client.out
 
-CLIENTOBJ = demoClient.o StdTcp.o DoubleLinkList.o StdThread.o
 
-OBJ = demoClient StdTcp DoubleLinkList StdThread
+LIBS=-ljson-c -lsqlite3 -lSoChatRoom
 
-LIBS = -g
+$(TARGET):$(OBJS)
+	$(CC) -g $^  $(LIBS) -o $@ 
 
-client:$(CLIENTOBJ) objects
-	gcc $(CLIENTOBJ) -o client.out $(LIBS)
+%.o:%.c
+	$(CC) -g -c $^ -o $@
 
-objects:
-	@$(foreach obj, $(OBJS), \
-	@gcc -c $(obj).c -o $(obj).o -g;\
-	#echo cc -c $(obj).c -o $(obj).o -g;\
-	)\
+.PHONY: clean
 
 clean:
-	@rm -rf *.o client.out
+	@$(RM) *.o $(TARGET) *.out
+
+show:
+	@echo $(RM)
+	@echo $(CC)
+	@echo $(CXX)
+	@echo $(MAKE)
+	@echo $(wildcard ./*.c)
+	@echo $(patsubst %.c, %.o, $(wildcard ./*.c))

@@ -36,8 +36,8 @@ pthread_mutex_t groupmutex;
 
 
 /* ======日志调试====== */
-#define DEBUG_FLAG "./my_debug.flag"
-#define DEBUG_FILE "./my_debug.log"
+#define DEBUG_FLAG "../Log/my_debug.flag"
+#define DEBUG_FILE "../Log/my_debug.log"
 /* 调试标记是否存在 */
 int g_debug = 0;
 
