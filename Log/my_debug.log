@@ -341,3 +341,171 @@
 [file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 21:16:29 2024)]
 =====================log init done.====================
 
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 21:28:03 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 21:28:10 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 21:37:43 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 21:37:45 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 21:39:11 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 21:39:13 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 21:45:48 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 21:55:16 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 21:55:32 2024)]
+退群：查找用户ping是否已经加入群聊xiaozhu。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 21:55:32 2024)]
+退群：查找群聊xiaozhu是否没有成员。
+[file:(demoServer.c), func(quitGroup), line(499), time(Tue Feb 20 21:55:32 2024)]
+退群：删除空的群聊xiaozhu
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 22:01:48 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:01:50 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:02:55 2024)]
+退群：查找用户dazhaung是否已经加入群聊xiaozhu。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 22:02:55 2024)]
+退群：查找群聊xiaozhu是否没有成员。
+[file:(demoServer.c), func(quitGroup), line(499), time(Tue Feb 20 22:02:55 2024)]
+退群：删除空的群聊xiaozhu
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 22:08:28 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:08:32 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:08:52 2024)]
+退群：查找用户dazhaung是否已经加入群聊xiaozhu。
+[file:(demoServer.c), func(quitGroup), line(493), time(Tue Feb 20 22:08:52 2024)]
+退群：查找群聊xiaozhu是否没有成员。
+[file:(demoServer.c), func(quitGroup), line(496), time(Tue Feb 20 22:08:52 2024)]
+退群：删除空的群聊xiaozhu
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:09:12 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:09:29 2024)]
+退群：查找用户liang是否已经加入群聊xiaozhu。
+[file:(demoServer.c), func(quitGroup), line(493), time(Tue Feb 20 22:09:29 2024)]
+退群：查找群聊xiaozhu是否没有成员。
+[file:(demoServer.c), func(quitGroup), line(496), time(Tue Feb 20 22:09:29 2024)]
+退群：删除空的群聊xiaozhu
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:11:14 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:11:53 2024)]
+退群：查找用户liang是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(493), time(Tue Feb 20 22:11:53 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(quitGroup), line(496), time(Tue Feb 20 22:11:53 2024)]
+退群：删除空的群聊qun
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 22:14:05 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:14:07 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:14:09 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:14:45 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(493), time(Tue Feb 20 22:14:45 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 22:17:32 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:17:34 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:17:38 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:17:57 2024)]
+退群：查找用户ping是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:18:03 2024)]
+退群：查找用户ping是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(493), time(Tue Feb 20 22:18:03 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 22:22:10 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:22:15 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:22:48 2024)]
+退群：查找用户ping是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(493), time(Tue Feb 20 22:22:48 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 22:36:58 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:37:05 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:37:46 2024)]
+退群：查找用户ping是否已经加入群聊9。
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:37:58 2024)]
+退群：查找用户ping是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(493), time(Tue Feb 20 22:37:58 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:38:10 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:38:24 2024)]
+退群：查找用户ping是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(493), time(Tue Feb 20 22:38:24 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 22:40:49 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:40:54 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:41:09 2024)]
+退群：查找用户ping是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(493), time(Tue Feb 20 22:41:09 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:41:23 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:41:33 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(493), time(Tue Feb 20 22:41:33 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(quitGroup), line(500), time(Tue Feb 20 22:41:33 2024)]
+退群：删除空的群聊qun
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:42:25 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(493), time(Tue Feb 20 22:42:25 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(quitGroup), line(500), time(Tue Feb 20 22:42:25 2024)]
+退群：删除空的群聊qun
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 22:42:44 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:42:58 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 22:43:01 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 22:43:19 2024)]
+退群：查找用户ping是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(493), time(Tue Feb 20 22:43:19 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(quitGroup), line(500), time(Tue Feb 20 22:43:19 2024)]
+退群：删除空的群聊qun

@@ -478,22 +478,23 @@ int quitGroup(int clientfd, Msg message, const char *userName)
         memset(sql5, 0, sizeof(sql5));
         // 从群成员表里删除用户
         sprintf(sql5, "delete from %s where name = '%s';", groupname, userName);
-        if (SqliteExec(g_db, sql5) == true)
-        {
-            // 从用户表里删除群
-            memset(sql5, 0, sizeof(sql5));
-            sprintf(sql5, "delete from %s where name = '%s';", userName, groupname);
-            if (SqliteExec(g_db, sql5) == true)
-            {
-                // 最后返回成功删除的
-                message.cmd = QUITGROUPSUCCESS;
-                memset(message.content, 0, sizeof(message.content));
-                TcpServerSend(clientfd, &message, sizeof(message));
-            }
-        }
+        SqliteExec(g_db, sql5);
+        // 从用户表里删除群
+        memset(sql5, 0, sizeof(sql5));
+        sprintf(sql5, "delete from %s where name = '%s';", userName, groupname);
+        SqliteExec(g_db, sql5);
+        // 最后返回成功删除的
+        message.cmd = QUITGROUPSUCCESS;
+        memset(message.content, 0, sizeof(message.content));
+        TcpServerSend(clientfd, &message, sizeof(message));
+    
+    
 
-        LOGPR("退群：查找群聊%s是否没有成员。", groupname);
+        LOGPR("退群：查找群聊%s是否没有成员。", groupname);    
+        memset(sql5, 0, sizeof(sql5));
+        sprintf(sql5, "select count(*) from %s;", groupname);
         
+
         if(judgeGroupEmpty(g_db, sql5) == true)
         {
             LOGPR("退群：删除空的群聊%s", groupname);
@@ -590,15 +591,6 @@ int enterGroup(int clientfd, Msg message, const char *userName)
 /* 添加好友 */
 int addFriend(int clientfd, Msg message, const char *userName)
 {
-    // 先打印当前在线人员
-    
-    /**
-     * PonLine
-     * onPrintf
-    */
-//   onPrintf(PonLine, printFunc);
-
-
     char friendname[FRIENDNAMESIZE] = {0};
     TcpServerRecv(clientfd, friendname, sizeof(friendname));
     char sql2[SQLSIZE];
@@ -668,10 +660,27 @@ int addFriend(int clientfd, Msg message, const char *userName)
 /* 私聊 */
 int chatfriend(int clientfd, Msg message, const char *userName)
 {
+        // 先打印当前在线人员
+    
+    /**
+     * PonLine
+     * onPrintf
+    */
+//   onPrintf(PonLine, printFunc);
+
+
     int ret = 0;
     char sql3[SQLSIZE + BUFFER_SZIE] = {0};
-    // 检查是否是自己
     
+    // todo 查一下是否是自己，现在进入私聊界面才能确认是否是自己
+    if (strncmp(userName, message.toName, strlen(userName)) == 0)
+    {
+        message.cmd = CHATFAIL;
+        memset(message.content, 0, sizeof(message.content));
+        strcpy(message.content, "私聊失败，不可以与自己私聊");
+        TcpServerSend(clientfd, &message, sizeof(message));
+        return 0;
+    }
 
     // 先查一遍是不是自己的好友,再看是不是在线
     sprintf(sql3, "select * from %s where name = '%s' and flag = %d;", userName, message.toName, 1);

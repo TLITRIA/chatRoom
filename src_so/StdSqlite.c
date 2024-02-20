@@ -10,6 +10,13 @@ struct StdSqlite
     sqlite3 *db;
 };
 
+static int callback(void *data, int argc, char **argv, char **azColName)
+{
+    int *count = (int *)data;
+    *count = atoi(argv[0]);
+    return 0;
+}
+
 SQL *InitSqlite(const char *filepath)
 {
     SQL *s = (SQL *)malloc(sizeof(SQL));
@@ -264,19 +271,18 @@ void ClearSqlite(SQL *s)
 
 bool judgeGroupEmpty(SQL *s, const char *sql)
 {
-
-    char **result = NULL;
-    char *err_msg = NULL;
-    int row = 0;
-    int col = -1;
-    int ret = sqlite3_get_table(s->db, sql, &result, &row, &col, &err_msg);
-    if (ret != SQLITE_OK)
+    char *errMsg = 0;
+    int count = 0;
+    if(sqlite3_exec(s->db, sql, callback, &count, &errMsg) != SQLITE_OK)
     {
-        printf("sqlite3_get_table error%s\n", err_msg);
+        printf("error msg:%s\n", sqlite3_errmsg(s->db));
+        sqlite3_free(errMsg);
+        return false;
     }
-    if (col == 0)
+
+    //printf("行数是%d\n", count);
+    if (count == 0)
     {
-        printf("群聊为空\n");
         return true;
     }
     
