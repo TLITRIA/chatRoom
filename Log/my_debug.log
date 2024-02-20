@@ -1,0 +1,343 @@
+[file:(demoServer.c), func(log_init), line(98), time(Tue Feb 20 12:34:45 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 12:34:49 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(95), time(Tue Feb 20 16:01:21 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 16:01:23 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(95), time(Tue Feb 20 16:04:17 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 16:04:21 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(95), time(Tue Feb 20 16:14:53 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(95), time(Tue Feb 20 16:15:45 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(92), time(Tue Feb 20 16:37:12 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 16:37:20 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 16:37:28 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(92), time(Tue Feb 20 16:44:09 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 16:44:12 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 16:44:20 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(92), time(Tue Feb 20 16:48:17 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 16:48:33 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 16:48:35 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(463), time(Tue Feb 20 16:49:17 2024)]
+查找表xiao中是否有qun
+[file:(demoServer.c), func(quitGroup), line(463), time(Tue Feb 20 16:49:38 2024)]
+查找表xiao中是否有qun
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 17:47:06 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 17:47:12 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 17:47:15 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 17:48:00 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 17:48:16 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 17:48:16 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 17:48:25 2024)]
+退群：查找用户lisi是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 17:48:25 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 17:48:56 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 17:49:05 2024)]
+退群：查找用户ll是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 17:49:05 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 18:00:32 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:00:37 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:00:40 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:00:46 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 18:01:31 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 18:01:31 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 18:03:14 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:03:20 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 18:03:36 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 18:03:36 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 18:04:11 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:04:15 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 18:04:32 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 18:04:32 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 18:06:21 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:06:29 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 18:06:44 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 18:06:44 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 18:08:48 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:08:52 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 18:09:08 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 18:09:08 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 18:11:01 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 18:11:49 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:11:52 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:12:11 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:12:32 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 18:12:40 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 18:12:40 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 18:13:21 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:13:24 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 18:13:32 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 18:13:40 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 18:13:40 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 18:26:24 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:26:29 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 18:26:40 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 18:26:40 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 18:31:09 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:31:15 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 18:31:23 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 18:31:23 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 18:31:51 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:32:01 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 18:32:14 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 18:32:14 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 18:33:05 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:33:18 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 18:33:27 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 18:33:27 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 18:35:00 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 18:35:04 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 18:35:13 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 18:35:13 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 20:33:46 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 20:33:50 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 20:34:03 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 20:34:03 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 20:35:42 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 20:35:44 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 20:36:01 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 20:36:01 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 20:36:40 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 20:36:41 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 20:36:52 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 20:36:52 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 20:37:44 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 20:37:48 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 20:37:59 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 20:37:59 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 20:38:43 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 20:38:46 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 20:38:55 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 20:38:55 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 20:46:15 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 20:46:17 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 20:46:27 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 20:46:27 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 20:48:52 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 20:48:54 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 20:49:04 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 20:49:04 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 20:50:45 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 20:50:47 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 20:50:56 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 20:50:56 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(quitGroup), line(499), time(Tue Feb 20 20:50:56 2024)]
+退群：删除空的群聊qun
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 20:51:19 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 20:51:24 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(quitGroup), line(464), time(Tue Feb 20 20:51:34 2024)]
+退群：查找用户xiao是否已经加入群聊qun。
+[file:(demoServer.c), func(quitGroup), line(495), time(Tue Feb 20 20:51:34 2024)]
+退群：查找群聊qun是否没有成员。
+[file:(demoServer.c), func(quitGroup), line(499), time(Tue Feb 20 20:51:34 2024)]
+退群：删除空的群聊qun
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 21:04:21 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 21:04:24 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 21:06:17 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 21:06:19 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 21:08:34 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 21:08:37 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 21:15:41 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 21:15:44 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(93), time(Tue Feb 20 21:16:25 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Tue Feb 20 21:16:29 2024)]
+=====================log init done.====================
+

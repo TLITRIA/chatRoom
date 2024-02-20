@@ -60,7 +60,7 @@ int sqlite_Input(sqlite3 *db, char *cmd)
 /* 输入指令并获取返回值 */
 char **sqlite_Get(sqlite3 *db, char *cmd, int *pRow, int *pCol)
 {   
-    char **result = NULL; 
+    char **result = NULL;
     char *errormsg = NULL;
     int ret = sqlite3_get_table(db, cmd, &result, pRow, pCol, &errormsg);
     if (ret != SQLITE_OK)

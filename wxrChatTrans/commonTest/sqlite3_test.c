@@ -57,14 +57,20 @@ int main()
     {
         for (int jdx = 0; jdx < col; jdx++)
         {
-            printf("%s\t", result[idx * col + jdx]);
+            printf("(%d)(%d)(%s)\t", idx, jdx, result[idx * col + jdx]);
         }
         printf("\n");
     }
 
+    for(int idx = 1; idx <= row; idx++)
+    {
+        printf("(%d)(%d)(%s)\n", idx, 1, result[idx * col + 1]);
+    }
+
     // 更新数据库数据
     sqlite_Input(testdb, cmd_set);
-
+    sqlite3_exec(testdb, "select count(*) from user;", NULL, NULL, &errormsg);
+    printf("error msg:%s\n", sqlite3_errmsg(testdb));
 
 
     /* 关闭数据库 */

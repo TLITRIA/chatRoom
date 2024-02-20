@@ -62,8 +62,8 @@ TIlist GetTableInfo(SQL *s, const char *sql)
     sqlite3_free_table(result);
     return list;
 }
-
-int searchIsExist(SQL *s, const char *sql) // 判断数据库表里是否有这个用户
+/* 判断数据库表里是否有这个用户，但是sql语句要自己写 */
+int searchIsExist(SQL *s, const char *sql) 
 {
     char **result;
     int row = 0, column = 0;
@@ -260,4 +260,25 @@ void ClearSqlite(SQL *s)
 {
     sqlite3_close(s->db);
     free(s);
+}
+
+bool judgeGroupEmpty(SQL *s, const char *sql)
+{
+
+    char **result = NULL;
+    char *err_msg = NULL;
+    int row = 0;
+    int col = -1;
+    int ret = sqlite3_get_table(s->db, sql, &result, &row, &col, &err_msg);
+    if (ret != SQLITE_OK)
+    {
+        printf("sqlite3_get_table error%s\n", err_msg);
+    }
+    if (col == 0)
+    {
+        printf("群聊为空\n");
+        return true;
+    }
+    
+    return false;
 }

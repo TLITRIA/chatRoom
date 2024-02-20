@@ -17,18 +17,25 @@
 
 
 /* 宏 */
-#define ip "127.0.0.1"
-#define port 8080
-#define FRIENDNAMESIZE 20
+#define SERVER_IP "127.0.0.1"
+#define SERVER_PORT 8080
+#define FRIENDNAMESIZE 20 // 
 
+
+enum STATUS_CODE
+{
+    SENDFAIL = -1,
+};
 
 /* 变量 */
-TcpC *client = NULL;
-Thread *T = NULL;
+TcpC *g_client = NULL;
+Thread *g_tid = NULL;
 
 
 /* ======日志调试====== */
-#define DEBUG_FLAG "../Log/my_debug.flag"
+#if 1
+
+#define DEBUG_FLAG "../Log/my_debug.flag" // 日志调试位置自选
 #define DEBUG_FILE "../Log/my_debug.log"
 /* 调试标记是否存在 */
 int g_debug = 0;
@@ -103,14 +110,39 @@ void log_close(void)
 
 
 /* ======日志结束====== */
+#endif
+
+/* 函数前置声明 */
+/* 打印--登陆成功后的功能页面 */
+void printChatroom();
+/* 打印--私聊功能页面 */
+void printChat();
+/* 打印--群聊功能页面 */
+void printAllChat();
 
 
+int chatroom(); // todo 私聊？？
 
-
-enum STATUS_CODE
-{
-    SENDFAIL = -1,
-};
+/* 添加好友 */
+int addfriend(TcpC *clientfd); 
+/* 删除好友 */
+int deletefriend(TcpC *clientfd);
+/* 建群 */
+int buildgroup(TcpC *clientfd, Msg message);
+/* 加群 */
+int addgroup(TcpC *clientfd, Msg message);
+/* 退群 */
+int quitgroup(TcpC *clientfd, Msg message);
+/* 发消息 */
+void SendMessage(TcpC *clientfd, Msg message);
+/* 接收消息线程处理函数 */
+void *RecvMessage(void *arg);
+/* 打印+输入--登陆注册 */
+int login_signup(TcpC *clientfd, Msg message);
+/* 心跳 */
+void send_heart(void *arg);
+/* 信号处理 */
+void sigHandler(int sig);
 
 void printChatroom() // 打印登录成功后的功能页面
 {
@@ -130,7 +162,7 @@ void printChatroom() // 打印登录成功后的功能页面
 }
 
 // 打印进入私聊功能的页面
-void printCHAT()
+void printChat()
 {
     system("clear");
     printf("\033[0;35m*********************私聊聊天室***********************\033[m\n");
@@ -151,72 +183,6 @@ void printAllChat()
     printf("\033[0;35m|                                输入w! : 传文件     |\033[m\n");
 }
 
-void printfNewFriend() // 打印登录成功后的功能页面
-{
-    printf("\033[0;35m*************************新朋友**********************\033[m\n");
-    printf("\033[0;35m|                                                   |\033[m\n");
-    printf("\033[0;35m|          1.同意                  2.拒绝            |\033[m\n");
-    printf("\033[0;35m|                                                   |\033[m\n");
-    printf("\033[0;35m|                                 3.退出页面         |\033[m\n");
-    printf("\033[0;35m|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\033[m\n");
-}
-
-/* 新朋友*/
-int newfriends(TcpC *c, Msg m)
-{
-    printfNewFriend();
-    m.cmd = NEWFRIENDS;
-    if(TcpClientSend(c,&m,sizeof(m)) == false)
-    {
-        perror("send");
-        return;
-    }
-    sleep(1);
-    int ret = 0;
-    while (1)
-    {
-        printf("请选择:");
-        memset(m.toName, 0, sizeof(m.toName));
-        scanf("%d", ret);
-        while (getchar() != '\n');
-        if (ret == LOGIN)
-        {
-            m.cmd = FILEAGREE;
-            printf("请输入要同意的名字:");
-            scanf("%s", m.toName);
-            while (getchar() != '\n');
-            if(TcpClientSend(c,&m,sizeof(m)) == false)
-            {
-                perror("send");
-                return;
-            }
-        }
-        else if (ret == SIGNUP)
-        {
-            m.cmd = FILEREFUSE;
-            printf("请输入要拒绝的名字:");
-            scanf("%s", m.toName);
-            while (getchar() != '\n');
-            if(TcpClientSend(c,&m,sizeof(m)) == false)
-            {
-                perror("send");
-                return;
-            }
-        }
-        else if (ret == CHAT)
-        {
-            break;
-        }
-        else
-        {
-            printf("输入错误请重新输入!\n");
-        }
-      
-    }
-    return ret;
-
-}
-
 int chatroom() // 私聊
 {
     int choice = 0;
@@ -233,7 +199,7 @@ int chatroom() // 私聊
 }
 
 
-int addfriend(TcpC *c)
+int addfriend(TcpC *clientfd)
 {
     int ret = 0;
     char friendname[FRIENDNAMESIZE] = {0};
@@ -241,7 +207,7 @@ int addfriend(TcpC *c)
     scanf("%s", friendname);
     while (getchar() != '\n')
         ;
-    if (TcpClientSend(c, friendname, sizeof(friendname)) == false)
+    if (TcpClientSend(clientfd, friendname, sizeof(friendname)) == false)
     {
         perror("send");
         return -1;
@@ -250,7 +216,7 @@ int addfriend(TcpC *c)
     return ret;
 }
 
-int deletefriend(TcpC *c)
+int deletefriend(TcpC *clientfd)
 {
     int ret = 0;
     char friendname[FRIENDNAMESIZE] = {0};
@@ -258,7 +224,7 @@ int deletefriend(TcpC *c)
     scanf("%s", friendname);
     while (getchar() != '\n')
         ;
-    if (TcpClientSend(c, friendname, sizeof(friendname)) == false)
+    if (TcpClientSend(clientfd, friendname, sizeof(friendname)) == false)
     {
         perror("send");
         return -1;
@@ -268,13 +234,13 @@ int deletefriend(TcpC *c)
 }
 
 //建立群
-int buildgroup(TcpC *c, Msg m)
+int buildgroup(TcpC *clientfd, Msg message)
 {
     int ret = 0;
     printf("请输入你要建立的群名:");
-    scanf("%s", m.content);
+    scanf("%s", message.content);
     while(getchar() != '\n');
-    if(TcpClientSend(c, &m, sizeof(m)) == false)
+    if(TcpClientSend(clientfd, &message, sizeof(message)) == false)
     {
         perror("send");
         return -1;
@@ -285,13 +251,13 @@ int buildgroup(TcpC *c, Msg m)
 }
 
 //加群
-int addgroup(TcpC *c, Msg m)
+int addgroup(TcpC *clientfd, Msg message)
 {
     int ret = 0;
     printf("请输入你要加入的群名:");
-    scanf("%s", m.content);
+    scanf("%s", message.content);
     while(getchar() != '\n');
-    if(TcpClientSend(c, &m, sizeof(m)) == false)
+    if(TcpClientSend(clientfd, &message, sizeof(message)) == false)
     {
         perror("send");
         return -1;
@@ -302,13 +268,13 @@ int addgroup(TcpC *c, Msg m)
 }
 
 //退群
-int quitgroup(TcpC *c, Msg m)
+int quitgroup(TcpC *clientfd, Msg message)
 {
     int ret = 0;
     printf("请输入你要退出的群名:");
-    scanf("%s", m.content);
+    scanf("%s", message.content);
     while(getchar() != '\n');
-    if(TcpClientSend(c, &m, sizeof(m)) == false)
+    if(TcpClientSend(clientfd, &message, sizeof(message)) == false)
     {
         perror("send");
         return -1;
@@ -321,7 +287,7 @@ int quitgroup(TcpC *c, Msg m)
 
 
 // DLlist friendlist;
-void SendMessage(TcpC *c, Msg m)
+void SendMessage(TcpC *clientfd, Msg message)
 {       
     int choice = 0;
     while (1)
@@ -340,31 +306,31 @@ void SendMessage(TcpC *c, Msg m)
         {
         case CHAT:
             printf("请输入你要私聊的用户:");
-            memset(m.toName, 0, sizeof(m.toName));
-            scanf("%s", m.toName);
+            memset(message.toName, 0, sizeof(message.toName));
+            scanf("%s", message.toName);
             while(getchar() != '\n');
-            printCHAT();
+            printChat();
 
             while(1)
             {
-               m.cmd = CHAT;
+               message.cmd = CHAT;
                
-               memset(m.content, 0, sizeof(m.content));
-               scanf("%s", m.content);
+               memset(message.content, 0, sizeof(message.content));
+               scanf("%s", message.content);
                while(getchar() != '\n'); 
-               if(strcmp(m.content, "w!") == 0)
+               if(strcmp(message.content, "w!") == 0)
                {
                  /*
                  to do.........
                  */
                }
-               else if(strcmp(m.content, "q!") == 0)
+               else if(strcmp(message.content, "q!") == 0)
                {
                    break;
                }
                else
                {
-                    if(TcpClientSend(c,&m,sizeof(m)) == false)
+                    if(TcpClientSend(clientfd,&message,sizeof(message)) == false)
                     {
                         perror("send");
                         return;
@@ -375,30 +341,30 @@ void SendMessage(TcpC *c, Msg m)
             break;
         case ALLCHAT:
             printf("请输入你要进入的群聊名称:");
-            memset(m.toName, 0, sizeof(m.toName));
-            scanf("%s", m.toName);
+            memset(message.toName, 0, sizeof(message.toName));
+            scanf("%s", message.toName);
             while(getchar() != '\n');
             printAllChat();
             while(1)
             {
-                m.cmd = ALLCHAT;
+                message.cmd = ALLCHAT;
                
-               memset(m.content, 0, sizeof(m.content));
-               scanf("%s", m.content);
+               memset(message.content, 0, sizeof(message.content));
+               scanf("%s", message.content);
                while(getchar() != '\n'); 
-               if(strcmp(m.content, "w!") == 0)
+               if(strcmp(message.content, "w!") == 0)
                {
                  /*
                  to do.........
                  */
                }
-               else if(strcmp(m.content, "q!") == 0)
+               else if(strcmp(message.content, "q!") == 0)
                {
                    break;
                }
                else
                {
-                    if(TcpClientSend(c,&m,sizeof(m)) == false)
+                    if(TcpClientSend(clientfd,&message,sizeof(message)) == false)
                     {
                         perror("send");
                         return;
@@ -407,29 +373,29 @@ void SendMessage(TcpC *c, Msg m)
             }
             break;
         case ADDFRIEND:
-            m.cmd = ADDFRIEND;
-            TcpClientSend(c, &m, sizeof(m));
-            addfriend(c);
+            message.cmd = ADDFRIEND;
+            TcpClientSend(clientfd, &message, sizeof(message));
+            addfriend(clientfd);
             break;
         case DELETEFRIEND:
-            m.cmd = DELETEFRIEND;
-            TcpClientSend(c, &m, sizeof(m));
-            deletefriend(c);
+            message.cmd = DELETEFRIEND;
+            TcpClientSend(clientfd, &message, sizeof(message));
+            deletefriend(clientfd);
             break;
         case BUILDGROUP:
-            memset(&m, 0, sizeof(m));
-            m.cmd = BUILDGROUP;
-            buildgroup(c, m);
+            memset(&message, 0, sizeof(message));
+            message.cmd = BUILDGROUP;
+            buildgroup(clientfd, message);
             break;
         case ADDGROUP:
-            memset(&m, 0, sizeof(m));
-            m.cmd = ADDGROUP;
-            addgroup(c, m);
+            memset(&message, 0, sizeof(message));
+            message.cmd = ADDGROUP;
+            addgroup(clientfd, message);
             break;
         case QUITGROUP:
-            memset(&m, 0, sizeof(m));
-            m.cmd = QUITGROUP;
-            quitgroup(c, m);
+            memset(&message, 0, sizeof(message));
+            message.cmd = QUITGROUP;
+            quitgroup(clientfd, message);
             break;
         default:
             break;
@@ -439,28 +405,28 @@ void SendMessage(TcpC *c, Msg m)
 
 void *RecvMessage(void *arg)
 {
-    TcpC *c = (TcpC *)arg;
+    TcpC *clientfd = (TcpC *)arg;
 
     while (1)
     {
-        Msg m;
-        if (TcpClientRecv(c, &m, sizeof(m)) == false)
+        Msg message;
+        if (TcpClientRecv(clientfd, &message, sizeof(message)) == false)
         {
             break;
         }
-        switch (m.cmd)
+        switch (message.cmd)
         {
             case ADDFRIENDSUCCESS:
                        printf("添加好友成功!\n");
                        break;
             case ADDFRIENDFAIL:
-                       printf("%s:%s\n", m.fromName, m.content);
+                       printf("%s\n", message.content);
                        break;
             case DELETEFRIENDSUCCESS:
                        printf("删除好友成功!\n");
                        break;
             case DELETEFRIENDFAIL:
-                       printf("%s\n", m.content);
+                       printf("%s\n", message.content);
                        break;
             case CHATFAIL:
                     //    char ptr[BUFFER_SZIE] = {0};
@@ -471,10 +437,10 @@ void *RecvMessage(void *arg)
                     //         {
                     //         break;
                     //         }
-                    //         TcpClientRecv(c, ptr, sizeof(ptr));
+                    //         TcpClientRecv(clientfd, ptr, sizeof(ptr));
                     //         printf("%s\n", ptr);
                     //     }
-                       printf("%s\n", m.content);
+                       printf("%s\n", message.content);
                        break;
             case CHATSUCCESS:
                     //    char ptr1[BUFFER_SZIE] = {0};
@@ -484,45 +450,43 @@ void *RecvMessage(void *arg)
                     //       {
                     //         break;
                     //       }
-                    //       TcpClientRecv(c, ptr1, sizeof(ptr1));
+                    //       TcpClientRecv(clientfd, ptr1, sizeof(ptr1));
                     //       printf("%s\n", ptr1);
                     //    }
-                       printf("%s\n", m.content);
+                       printf("%s\n", message.content);
                        break;
             case ALLCHATFAIL:
-                       printf("%s\n", m.content);
+                       printf("%s\n", message.content);
                        break;
             case ALLCHATSUCCESS:
-                       printf("%s\n", m.content);
+                       printf("%s\n", message.content);
                        break;
             case BUILDGROUPFAIL:
-                       printf("%s\n", m.content);
+                       printf("%s\n", message.content);
                        break;
             case BUILDGROUPSUCCESS:
                        printf("建立群成功!\n");
                        break;
             case ADDGROUPFAIL:
-                       printf("%s\n", m.content);
+                       printf("%s\n", message.content);
                        break;
             case ADDGROUPSUCCESS:
                        printf("加群成功!\n");
                        break;
             case QUITGROUPFAIL: 
-                       printf("%s\n", m.content);
+                       printf("%s\n", message.content);
                        break;
             case QUITGROUPSUCCESS:
                        printf("退群成功!\n");
                        break;
-            case NEWFRIENDS:
-                        printf("%s:申请添加好友\n", m.content);
                 default:
                         break;
         }
     }
 }
 
-// 登录注册
-int login_signup(TcpC *c, Msg m)
+/* 打印+输入--登陆注册 */
+int login_signup(TcpC *clientfd, Msg message)
 {
     printf("\033[0;35m*********************大壮聊天室**********************\033[m\n");
     printf("\033[0;35m|                                                   |\033[m\n");
@@ -547,24 +511,24 @@ int login_signup(TcpC *c, Msg m)
             ;
         if (choice == LOGIN)
         {
-            m.cmd = LOGIN;
+            message.cmd = LOGIN;
             int flag = 0;
             printf("请输入你要登录的姓名:");
-            memset(m.fromName, 0, sizeof(m.fromName));
-            scanf("%s", m.fromName);
+            memset(message.fromName, 0, sizeof(message.fromName));
+            scanf("%s", message.fromName);
             while (getchar() != '\n')
                 ;
             printf("请输入你要登录的密码:");
-            memset(m.password, 0, sizeof(m.password));
-            scanf("%s", m.password);
+            memset(message.password, 0, sizeof(message.password));
+            scanf("%s", message.password);
             while (getchar() != '\n')
                 ;
-            if (TcpClientSend(c, &m, sizeof(m)) == false)
+            if (TcpClientSend(clientfd, &message, sizeof(message)) == false)
             {
-                ClearTcpClient(c);
+                ClearTcpClient(clientfd);
                 return SENDFAIL;
             }
-            TcpClientRecv(c, &flag, sizeof(flag));
+            TcpClientRecv(clientfd, &flag, sizeof(flag));
             if (flag == 1)
             {
                 printf("登录成功!\n");
@@ -572,38 +536,38 @@ int login_signup(TcpC *c, Msg m)
             }
             else
             {
-                TcpClientRecv(c, &m, sizeof(m));
-                printf("%s\n", m.content);
+                TcpClientRecv(clientfd, &message, sizeof(message));
+                printf("%s\n", message.content);
             }
         }
         if (choice == SIGNUP)
         {
-            m.cmd = SIGNUP;
+            message.cmd = SIGNUP;
             printf("请输入你要注册的姓名:");
-            memset(m.fromName, 0, sizeof(m.fromName));
-            scanf("%s", m.fromName);
+            memset(message.fromName, 0, sizeof(message.fromName));
+            scanf("%s", message.fromName);
             while (getchar() != '\n')
                 ;
-            TcpClientSend(c, &m, sizeof(m));
+            TcpClientSend(clientfd, &message, sizeof(message));
             int flag = 0; // 判断注册的用户有没有重名的标志位
-            TcpClientRecv(c, &flag, sizeof(flag));
+            TcpClientRecv(clientfd, &flag, sizeof(flag));
             if (flag == 1)
             {
                 printf("请输入你要注册的密码:");
-                memset(m.password, 0, sizeof(m.password));
-                scanf("%s", m.password);
+                memset(message.password, 0, sizeof(message.password));
+                scanf("%s", message.password);
                 while (getchar() != '\n')
                     ;
-                TcpClientSend(c, &m, sizeof(m));
-                TcpClientRecv(c, &m, sizeof(m));
-                printf("%s\n", m.content);
+                TcpClientSend(clientfd, &message, sizeof(message));
+                TcpClientRecv(clientfd, &message, sizeof(message));
+                printf("%s\n", message.content);
             }
             else
             {
                 sleep(2);
-                memset(m.content, 0, sizeof(m.content));
-                TcpClientRecv(c, &m, sizeof(m));
-                printf("%s\n", m.content);
+                memset(message.content, 0, sizeof(message.content));
+                TcpClientRecv(clientfd, &message, sizeof(message));
+                printf("%s\n", message.content);
             }
         }
     }
@@ -611,13 +575,13 @@ int login_signup(TcpC *c, Msg m)
 
 void send_heart(void *arg)
 {
-    TcpC *c = (TcpC *)arg;
+    TcpC *clientfd = (TcpC *)arg;
 
     //心跳检测
     while(1)
     {
         char* buf = "I am alive";
-        TcpClientSend(c, buf, sizeof(buf));
+        TcpClientSend(clientfd, buf, sizeof(buf));
         sleep(3);
     }
 }
@@ -625,8 +589,8 @@ void send_heart(void *arg)
 /* 捕捉信号*/
 void sigHandler(int sig)
 {
-    free(T);
-    ClearTcpClient(client);
+    free(g_tid);
+    ClearTcpClient(g_client);
     printf("成功回收资源\n");
     exit(-1);
 }
@@ -637,38 +601,41 @@ int main()
     /* 打开文件调试 */
     log_init();
 
-
-
-    TcpC *c = InitTcpClient(ip, port);
-    // InitDLlist(&friendlist);
-    if (c == NULL)
-        return -1;
-    printf("客户端连接成功\n");
-
-    Msg m;
-    login_signup(c, m);
-
-    Thread *t = InitThread(RecvMessage, c);
-    ThreadDetach(t);
-
-    // Thread *t1 = InitThread(send_heart,c);
-    // ThreadDetach(t1);
-    /* 捕捉信号*/
-    client = c;
-    T = t;
-
-
+    
+    /* 注册退出信号 */
     signal(SIGINT, sigHandler);
     signal(SIGTSTP, sigHandler);
     signal(SIGQUIT, sigHandler);
 
+    /* 初始化客户端到连接服务器，返回结构体中是通讯套接字 */
+    TcpC *clientfd = InitTcpClient(SERVER_IP, SERVER_PORT);
+    // InitDLlist(&friendlist);
+    if (clientfd == NULL) /* 判空 */
+        return -1;
+    printf("客户端连接成功\n");
 
-    SendMessage(c, m);
+    /* 初始化消息 */
+    Msg message;
+    login_signup(clientfd, message);
+
+    /* 开辟接收处理线程，并分离 */
+    Thread *recv_tid = InitThread(RecvMessage, clientfd);
+    ThreadDetach(recv_tid);
+
+    // Thread *t1 = InitThread(send_heart,clientfd);
+    // ThreadDetach(t1);
+
+    /* 捕捉信号 */
+    g_client = clientfd;
+    g_tid = recv_tid;// ？？
 
 
-    while(1);
-    free(t);
-    ClearTcpClient(c);
+    /* 循环发送消息 */
+    SendMessage(clientfd, message);
+
+    while(1); // todo 删除确认
+    free(recv_tid);
+    ClearTcpClient(clientfd);
     /* 关闭文件调试 */
     log_init();
 

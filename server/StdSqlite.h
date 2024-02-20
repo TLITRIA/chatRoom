@@ -26,4 +26,8 @@ int findusername(char *n, SQL *s, const char *sql);
 void ClearSqlite(SQL *s);
 void FreeTableInfo(TIlist *l);
 
+
+
+bool judgeGroupEmpty(SQL *s, const char *sql);
+
 #endif
