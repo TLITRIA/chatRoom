@@ -48,20 +48,6 @@ struct Message
 };
 typedef struct Message Msg;
 
-// struct client
-// {
-//     int cmd;
-//     int flag;//功能标志位：-1：退出群聊  0：通知所有在线用户 1：私聊 2：群聊 3：发送文件 4：修改密码 5：管理员操作
-//     int root;  //权限标志位： -1：首次进入聊天室 0：普通用户 1：管理员 2：vip用户
-//     int forbit; //管理员权限：1：禁言 2:解除禁言 3：踢人
-//     char name[50];//账号名
-//     char password[20]; //密码
-//     char msg[1024]; //聊天信息
-//     char toname[50]; //私聊对象
-//     struct client *next;
-//     struct client *prev;
-// };
-// typedef struct client Client;
 struct ClientInfo // 用来存放已登录的用户
 {
     char Name[DEFAULT_SIZE]; // 客户端用户名

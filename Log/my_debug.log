@@ -509,3 +509,30 @@
 退群：查找群聊qun是否没有成员。
 [file:(demoServer.c), func(quitGroup), line(500), time(Tue Feb 20 22:43:19 2024)]
 退群：删除空的群聊qun
+[file:(demoClient.c), func(log_init), line(97), time(Wed Feb 21 09:27:37 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(93), time(Wed Feb 21 09:27:45 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Wed Feb 21 09:27:50 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(93), time(Wed Feb 21 09:28:54 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(93), time(Wed Feb 21 09:29:09 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Wed Feb 21 09:29:24 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(93), time(Wed Feb 21 10:44:57 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Wed Feb 21 10:45:06 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(97), time(Wed Feb 21 10:48:18 2024)]
+=====================log init done.====================
+

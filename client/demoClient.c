@@ -589,10 +589,14 @@ void send_heart(void *arg)
 /* 捕捉信号*/
 void sigHandler(int sig)
 {
-    free(g_tid);
-    ClearTcpClient(g_client);
-    printf("成功回收资源\n");
-    exit(-1);
+    if (g_tid != NULL)
+    {
+        free(g_tid);
+        ClearTcpClient(g_client);
+        printf("成功回收资源\n");
+        exit(-1);
+    }
+
 }
 
 
