@@ -1,9 +1,9 @@
-#ifndef __GLOBALMESSAGE_H_
-#define __GLOBALMESSAGE_H_
+#ifndef __TCP_H_
+#define __TCP_H_
 #include <stdbool.h>
 #define DEFAULT_SIZE 20
 #define BUFFER_SZIE 1024
-enum CMD
+enum STATUSCODE
 {
     LOGIN = 1, //登录
     SIGNUP, //注册
@@ -14,7 +14,7 @@ enum CMD
     BUILDGROUP, //建群
     ADDGROUP,  //加群
     QUITGROUP, //退群
-    NEWFRIENDS, //新朋友
+    NEWFRIENDS,//新朋友
     ADDFRIENDFAIL, //加好友失败
     ADDFRIENDSUCCESS, //加好友成功
     DELETEFRIENDFAIL, //删除好友失败
@@ -38,38 +38,35 @@ enum CMD
     fileend//文件发送结束
 };
 
-struct Message
+typedef struct MessageStructure
 {
     int cmd;
-    char fromName[DEFAULT_SIZE]; // 消息来源对象
+    char fromName[DEFAULT_SIZE]; // 消息来源对象 
     char password[DEFAULT_SIZE]; // 密码
     char toName[DEFAULT_SIZE];   // 消息接收对象
     char content[BUFFER_SZIE];   // 消息主体
-};
-typedef struct Message Msg;
+}MSture;
 
-struct ClientInfo // 用来存放已登录的用户
-{
-    char Name[DEFAULT_SIZE]; // 客户端用户名
-    int sock;      // 登录主机的套接字
-};
-struct ClientSignup //  用来存放已注册的用户
-{
-    char name[50];
-    char password[DEFAULT_SIZE];
-};
-struct Root // 用来存放管理者名单
-{
-    char rootname[50];
-};
-typedef struct Root RT;
-typedef struct ClientSignup CSignup;
-typedef struct ClientInfo CInfo;
-CInfo *CreateInfo(const char *name, int sock);
+// 服务器端初始化  创建 绑定 监听
+int TcpServerInit();
 
-CSignup *CreateSignup(const char *name, const char *password); // 自定义
-RT *CreateRoot(const char *name);                              // 自定义
-void ClearInfo(CInfo *c);
-bool IsNameSame(void *ptr1, void *ptr2);
+// 建立通信套接字 返回通信要用的套接字
+int TcpAccept(int sfd);
+
+// 服务器端发送消息
+bool TcpServerWrite(int clientfd, void *ptr, int size);
+
+// 服务器接收消息
+bool TcpServerRead(int clientfd, void *ptr, int size);
+
+
+// 初始化客户端  初始化客户端的套接字，返回的是一个指向结构体的指针  创建套接字，连接服务器
+int TcpClientInit();
+
+// 客户端发送消息
+bool TcpClientWrite(int c, void *ptr, int size);
+
+// 客户端接收消息
+bool TcpClientRead(int c, void *ptr, int size);
 
 #endif
