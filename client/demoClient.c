@@ -26,7 +26,7 @@ enum STATUS_CODE
 };
 
 /* 变量 */
-int *g_client = NULL;
+int g_client = 0;
 pthread_t *g_tid = NULL;
 
 
@@ -587,14 +587,10 @@ void send_heart(void *arg)
 /* 捕捉信号*/
 void sigHandler(int sig)
 {
-    if (g_tid != NULL)
-    {
-        free(g_tid);
-        // Clearintlient(g_client);
+        // free(g_tid);
+        close(g_client);
         printf("成功回收资源\n");
         exit(-1);
-    }
-
 }
 
 
@@ -636,7 +632,7 @@ int main()
     // ThreadDetach(t1);
 
     /* 捕捉信号 */
-    // g_client = clientfd;
+    g_client = clientfd;
     // g_tid = tid;// ？？
 
 

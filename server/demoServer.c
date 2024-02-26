@@ -239,8 +239,8 @@ int deletefriend(int clientfd, MSture message, const char *userName)
     strncpy(name, userName, strlen(userName));
 
     memset(sql2, 0, sizeof(sql2));
-    sprintf(sql2, "select * from %s where name = '%s';", name, friendname);
-    printf("%s\n", sql2);
+    sprintf(sql2, "select * from relationship where Username = '%s' and relation = '%s' and flag = 1;", name, friendname);
+    // printf("%s\n", sql2);
     // 先查一遍是不是已经是好友， 是则可以删除, 不是则无法删除
     ret = sqliteSearchISInfo(g_db, sql2);
     if (ret == 0) // 不是好友，删除失败
@@ -255,36 +255,36 @@ int deletefriend(int clientfd, MSture message, const char *userName)
         // memset(sql2, 0, sizeof(sql2));
         // sprintf(sql2, "select * from LoginClient where Username = '%s';", friendname);
         // ret = sqliteSearchISInfo(g_db, sql2);
-        onLline info3;
-        strncpy(info3.name, friendname, sizeof(friendname) - 1);
-        info3.sockfd = -1;
-        ret = onLineIsContainVal(PonLine, (void *)&info3);
+        // onLline info3;
+        // strncpy(info3.name, friendname, sizeof(friendname) - 1);
+        // info3.sockfd = -1;
+        // ret = onLineIsContainVal(PonLine, (void *)&info3);
 
-        if (ret == 0) // 不在线
-        {
-            message.cmd = DELETEFRIENDFAIL;
-            memset(message.content, 0, sizeof(message.content));
-            strcpy(message.content, "删除好友失败,你要删除的好友处于不在线状态");
-            TcpServerWrite(clientfd, &message, sizeof(message));
-        }
-        else // 在线
-        {
+        // if (ret == 0) // 不在线
+        // {
+        //     message.cmd = DELETEFRIENDFAIL;
+        //     memset(message.content, 0, sizeof(message.content));
+        //     strcpy(message.content, "删除好友失败,你要删除的好友处于不在线状态");
+        //     TcpServerWrite(clientfd, &message, sizeof(message));
+        // }
+        // else // 在线
+        // {
             memset(sql2, 0, sizeof(sql2));
             int status = 1; // 表示是好友, 删除
-            sprintf(sql2, "delete from %s where name = '%s' and flag = %d;", name, friendname, status);
+            sprintf(sql2, "delete from relationship where Username = '%s' and relation = '%s' and flag = %d;", name, friendname, status);
             if (sqlExecute(g_db, sql2) == true)
             {
                 memset(sql2, 0, sizeof(sql2));
-                sprintf(sql2, "delete from %s where name = '%s' and flag = %d;", friendname, name, status);
+                sprintf(sql2, "delete from relationship where Username = '%s' and relation = '%s' and flag = %d;", friendname, name, status);
                 sqlExecute(g_db, sql2); // 互删好友
                 message.cmd = DELETEFRIENDSUCCESS;
                 TcpServerWrite(clientfd, &message, sizeof(message));
             }
-        }
+        // }
     }
     return ret;
 }
-
+#if 0
 int newFriends(int clientfd, MSture message, const char *Name)
 {
   char sql[SQLSIZE];
@@ -311,7 +311,7 @@ int newFriends(int clientfd, MSture message, const char *Name)
 
   return 0;
 }
-
+#endif
 
 // 建立群聊
 int buildGroup(int clientfd, MSture message, const char *userName)

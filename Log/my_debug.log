@@ -775,3 +775,30 @@
 退群：查找群聊xiaozhu是否没有成员。
 [file:(demoServer.c), func(quitGroup), line(501), time(Sun Feb 25 21:43:41 2024)]
 退群：删除空的群聊xiaozhu
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 09:46:53 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 09:46:58 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 09:47:08 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 09:50:10 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 09:50:13 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 09:50:28 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 10:01:33 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 10:01:37 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 10:01:43 2024)]
+=====================log init done.====================
+
