@@ -1195,3 +1195,12 @@
 [file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 17:23:49 2024)]
 =====================log init done.====================
 
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 18:15:29 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 18:15:54 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 18:16:01 2024)]
+=====================log init done.====================
+
