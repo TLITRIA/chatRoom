@@ -60,7 +60,7 @@ int sqlExecute(SQL *s, const char *sql)
 { 
     char *errormsg = NULL;
     int ret = sqlite3_exec(s->db, sql, NULL, NULL, &errormsg);
-    printf("ret:%d\n", ret);
+    // printf("ret:%d\n", ret);
     if (ret != SQLITE_OK)
     {
         printf("sqlite exec error:%s\n", errormsg);

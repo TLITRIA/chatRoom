@@ -14,6 +14,7 @@ enum STATUSCODE
     BUILDGROUP, //建群
     ADDGROUP,  //加群
     QUITGROUP, //退群
+    SEEFRIEND,
     NEWFRIENDS,//新朋友
     ADDFRIENDFAIL, //加好友失败
     ADDFRIENDSUCCESS, //加好友成功
@@ -35,7 +36,7 @@ enum STATUSCODE
     FILEREFUSE,//拒绝
     fileStart,  //开始发文件
     filesending,//在发文件中
-    fileend//文件发送结束
+    fileend, //文件发送结束
 };
 
 typedef struct MessageStructure

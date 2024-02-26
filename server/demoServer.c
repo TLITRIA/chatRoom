@@ -125,6 +125,9 @@ int printFunc(ELEMENTTYPE val)
     return ret;
 }
 
+static int friendList(int clientfd, MSture message, const char *userName);
+
+
 /* 登录 */
 int login(int clientfd, MSture message, char *userName, onLline *info)
 {
@@ -574,6 +577,7 @@ int enterGroup(int clientfd, MSture message, const char *userName)
         else // 在这个群里 群聊成功
         {
             message.cmd = ALLCHATSUCCESS;
+            strcpy(message.fromName, userName);
             char ptr[DEFAULT_SIZE] = {0};
 
             // 查看群里在线的用户，每个用户都发一遍 除了自己
@@ -695,9 +699,8 @@ int chatfriend(int clientfd, MSture message, const char *userName)
      * PonLine
      * onPrintf
     */
-//   onPrintf(PonLine, printFunc);
-
-
+    //onPrintf(PonLine, printFunc);
+    // friendList(clientfd, message, userName);
     int ret = 0;
     char sql3[SQLSIZE + BUFFER_SZIE] = {0};
     
@@ -749,12 +752,44 @@ int chatfriend(int clientfd, MSture message, const char *userName)
 
             onLineObtainValVal(PonLine, (void *)&info2, &tonamefd, obtainFunc);
             message.cmd = CHATSUCCESS;
+            strcpy(message.fromName, userName);
             TcpServerWrite(tonamefd, &message, sizeof(message));
         }
     }
 
     return ret;
 }
+
+int friendList(int clientfd, MSture message, const char *userName)
+{
+    int ret = 0;
+    char sql[BUFFER_SZIE] = {0};
+    memset(sql, 0,sizeof(sql));
+
+    sprintf(sql, "select relation from relationship where Username = '%s' and flag = 1;", userName);
+    char ptr1[DEFAULT_SIZE] = {0};
+    //获取好友的数量
+    int row = sqliteGetVal(g_db, sql, ptr1, 0, 1);
+    printf("%d\n", row);
+    // TcpServerWrite(clientfd, &message, sizeof(message));
+    // TcpServerWrite(clientfd, &row, sizeof(row));
+    message.cmd = SEEFRIEND;
+    for(int idx = 1; idx <= row; idx++)
+    {
+        //获取每一个好友名字
+        memset(ptr1, 0, sizeof(ptr1));
+        sqliteGetVal(g_db, sql, ptr1, 0, idx);
+        printf("ptr:%s\n",ptr1);
+        memset(message.content, 0, sizeof(message.content));
+        strcpy(message.content, ptr1);
+        printf("123:%s\n", message.content);
+        TcpServerWrite(clientfd, &message, sizeof(message));
+    }
+
+    return ret;
+}
+
+
 /* 处理线程 */
 void *clientHandler(void *arg)
 {
@@ -783,6 +818,7 @@ void *clientHandler(void *arg)
             enroll(clientfd, message);
             break;
         case CHAT: // 私聊
+            // friendList(clientfd, message, userName);
             chatfriend(clientfd, message, userName);
             break;
             // FreeDLlist(&l,NULL);
@@ -806,6 +842,8 @@ void *clientHandler(void *arg)
         case QUITGROUP: //
             quitGroup(clientfd, message, userName);
             break;
+        case SEEFRIEND:
+            friendList(clientfd, message, userName);
         default:
             break;
         }
@@ -860,7 +898,7 @@ int main()
 
     // 初始化线程池
     threadpool_t m_p;
-    threadPoolInit(&m_p, 5, 10, 100);
+    threadPoolInit(&m_p, 10, 20, 100);
     // 初始化锁
     pthread_mutex_init(&loginmutex, NULL);
     pthread_mutex_init(&groupmutex, NULL);

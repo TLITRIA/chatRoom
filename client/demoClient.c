@@ -155,7 +155,7 @@ void printChatroom() // 打印登录成功后的功能页面
     printf("\033[0;34m|                       7.建群                      |\033[m\n");
     printf("\033[0;35m|                       8.加群                      |\033[m\n");
     printf("\033[0;35m|                       9.退群                      |\033[m\n");
-    printf("\033[0;35m|                                                   |\033[m\n");
+    printf("\033[0;35m|                       10.好友列表                  |\033[m\n");
     printf("\033[0;35m|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\033[m\n");
 }
 
@@ -300,6 +300,8 @@ void SendMessage(int clientfd, MSture message)
         scanf("%d", &choice);
         while (getchar() != '\n')
             ;
+        
+
         switch (choice)
         {
         case CHAT:
@@ -395,6 +397,14 @@ void SendMessage(int clientfd, MSture message)
             message.cmd = QUITGROUP;
             quitgroup(clientfd, message);
             break;
+        case SEEFRIEND:
+            memset(&message, 0, sizeof(message));
+            message.cmd = SEEFRIEND;
+            if (TcpClientWrite(clientfd,&message,sizeof(message)) == false)
+            {
+                perror("send error");
+            }
+            break;
         default:
             break;
         }
@@ -451,13 +461,13 @@ void *RecvMessage(void *arg)
                     //       TcpClientRead(clientfd, ptr1, sizeof(ptr1));
                     //       printf("%s\n", ptr1);
                     //    }
-                       printf("%s\n", message.content);
+                       printf("%s:%s\n",message.fromName, message.content);
                        break;
             case ALLCHATFAIL:
                        printf("%s\n", message.content);
                        break;
             case ALLCHATSUCCESS:
-                       printf("%s\n", message.content);
+                       printf("%s:%s\n",message.fromName, message.content);
                        break;
             case BUILDGROUPFAIL:
                        printf("%s\n", message.content);
@@ -477,6 +487,9 @@ void *RecvMessage(void *arg)
             case QUITGROUPSUCCESS:
                        printf("退群成功!\n");
                        break;
+            case SEEFRIEND:
+                        printf("%s\n", message.content);
+                        break;
                 default:
                         break;
         }

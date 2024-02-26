@@ -14,6 +14,7 @@ enum STATUSCODE
     BUILDGROUP, //建群
     ADDGROUP,  //加群
     QUITGROUP, //退群
+    SEEFRIEND, //好友列表
     NEWFRIENDS,//新朋友
     ADDFRIENDFAIL, //加好友失败
     ADDFRIENDSUCCESS, //加好友成功

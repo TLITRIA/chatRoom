@@ -802,3 +802,396 @@
 [file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 10:01:43 2024)]
 =====================log init done.====================
 
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 14:18:59 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:19:16 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 14:20:46 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:20:49 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:21:17 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:23:28 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:25:54 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 14:26:14 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:26:24 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:30:25 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:30:32 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:30:46 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:30:52 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:30:56 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 14:31:24 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:31:30 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:31:38 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:31:43 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:31:50 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:31:55 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:32:03 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:32:09 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:32:16 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:32:33 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:32:39 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:32:48 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 14:33:28 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:33:31 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:33:39 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:33:43 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:33:47 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:33:52 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:33:57 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 14:34:41 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:34:44 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:34:49 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:34:53 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:34:56 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:35:00 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:35:05 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:35:18 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:35:32 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:35:42 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:37:16 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:37:30 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:37:40 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 14:38:24 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:38:28 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:38:34 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:38:40 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:38:45 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:38:53 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:38:59 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:39:10 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:39:17 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:39:23 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:39:27 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:39:37 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 14:42:22 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 14:45:28 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 14:45:35 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:00:48 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:00:52 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:01:37 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:01:40 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:05:38 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:05:41 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:08:23 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:08:27 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:12:33 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:12:36 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:20:16 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:20:23 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:22:04 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:22:07 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:23:15 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:23:25 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:23:30 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:29:53 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:30:01 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:31:10 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:32:32 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:32:36 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:35:24 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:35:30 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:36:52 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:38:13 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:38:16 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:38:19 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:40:57 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:41:00 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:41:09 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:46:51 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:47:53 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 15:48:13 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 15:48:34 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 16:14:29 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 16:14:34 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 16:15:53 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 16:16:49 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 16:16:52 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 16:21:52 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 16:21:56 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 16:25:00 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 16:25:19 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 16:25:22 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 16:26:00 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 16:26:04 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 16:26:21 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 16:26:28 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 16:26:31 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 16:31:12 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 16:31:20 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 17:10:26 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 17:10:32 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 17:10:36 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 17:12:27 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 17:12:30 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 17:12:33 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 17:13:01 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 17:13:05 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 17:13:08 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 17:16:02 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 17:16:07 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 17:18:06 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 17:18:28 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 17:19:09 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 17:19:30 2024)]
+=====================log init done.====================
+
+[file:(demoServer.c), func(log_init), line(88), time(Mon Feb 26 17:23:35 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 17:23:40 2024)]
+=====================log init done.====================
+
+[file:(demoClient.c), func(log_init), line(95), time(Mon Feb 26 17:23:49 2024)]
+=====================log init done.====================
+
